@@ -10,8 +10,6 @@ source:
   fn: Release-{{ version }}.tar.gz
   url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-bigobj.patch
 
 build:
   number: 0
