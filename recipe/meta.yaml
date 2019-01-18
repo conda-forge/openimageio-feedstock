@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "1.8.9" %}
-{% set sha256 = "6b785abc890a95c600903bd67d6746e14ee363a8bbea23842d2175d4e7a837f3" %}
+{% set version = "1.8.17" %}
+{% set sha256 = "a019086c05a6150d445a2240bab1723dff540dde5f5c327c36a97f0b5ae0e157" %}
 
 package:
   name: {{ name }}
@@ -10,8 +10,6 @@ source:
   fn: Release-{{ version }}.tar.gz
   url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-bigobj.patch
 
 build:
   number: 0
