@@ -7,11 +7,13 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '4'
+- '9'
 giflib:
 - 5.1.7
 jpeg:
 - '9'
+libwebp:
+- '1.0'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 macos_min_version:
@@ -19,3 +21,5 @@ macos_min_version:
 pin_run_as_build:
   jpeg:
     max_pin: x
+  libwebp:
+    max_pin: x.x
