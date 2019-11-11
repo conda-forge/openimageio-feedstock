@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "1.8.17" %}
-{% set sha256 = "a019086c05a6150d445a2240bab1723dff540dde5f5c327c36a97f0b5ae0e157" %}
+{% set version = "2.0.12" %}
+{% set sha256 = "930a142c9cabbbc3b249577083c97e9f0407cc8cbf933144f3a3ed0f3ec9cfe0" %}
 
 package:
   name: {{ name }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -22,14 +22,14 @@ requirements:
     - cmake
     - {{ compiler('cxx') }}
   host:
-    - boost ==1.69.0
-    - ffmpeg >=3.4.2,<3.5
+    - boost 1.70.0
+    - ffmpeg 4.2
     - giflib
     - jpeg
-    - libpng >=1.6.0,<1.7
-    - libtiff >=4.0.0,<4.1.0
-    - libwebp ==1.0.1
-    - openexr ==2.3.*
+    - libpng 1.6
+    - libtiff 4.1
+    - libwebp
+    - openexr
   run:
     # boost and libwebp don't have a run_exports section
     - {{ pin_compatible('boost', max_pin='x.x.x') }}
