@@ -11,6 +11,6 @@ cmake $SRC_DIR \
 	  -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib \
 	  -DCMAKE_INSTALL_LIBDIR=lib \
 	  -DCMAKE_BUILD_TYPE=Release \
-	  -DCMAKE_CXX_FLAGS="-DGIFLIB_MAJOR=5 -Wno-deprecated" # Hack for OS X build
+	  -DCMAKE_CXX_FLAGS="-Wno-deprecated" # Hack for OS X build
 
 make VERBOSE=1 install -j${CPU_COUNT}
