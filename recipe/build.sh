@@ -13,4 +13,4 @@ cmake $SRC_DIR \
 	  -DCMAKE_BUILD_TYPE=Release \
 	  -DCMAKE_CXX_FLAGS="-DGIFLIB_MAJOR=5 -Wno-deprecated" # Hack for OS X build
 
-make install -j${CPU_COUNT}
+make VERBOSE=1 install -j${CPU_COUNT}
