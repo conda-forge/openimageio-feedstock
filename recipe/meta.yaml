@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -47,6 +47,7 @@ test:
 about:
   home: https://sites.google.com/site/openimageio/home
   license: BSD-3-Clause
+  license_file: LICENSE
   license_family: BSD
   summary: Simple but powerful APIs for reading & writing many image formats
   description: |
