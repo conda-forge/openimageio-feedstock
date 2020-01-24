@@ -1,3 +1,5 @@
+boost:
+- 1.70.0
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -8,10 +10,28 @@ cxx_compiler_version:
 - '7'
 docker_image:
 - condaforge/linux-anvil-comp7
+ffmpeg:
+- '4.1'
 giflib:
-- 5.1.7
+- '5.2'
 jpeg:
 - '9'
+libpng:
+- '1.6'
+libtiff:
+- 4.1.0
+libwebp:
+- '1.0'
 pin_run_as_build:
+  boost:
+    max_pin: x.x.x
+  ffmpeg:
+    max_pin: x.x
   jpeg:
     max_pin: x
+  libpng:
+    max_pin: x.x
+  libtiff:
+    max_pin: x
+  libwebp:
+    max_pin: x.x
