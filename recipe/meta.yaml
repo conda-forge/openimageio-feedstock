@@ -49,6 +49,7 @@ about:
   home: https://sites.google.com/site/openimageio/home
   license: BSD-3-Clause
   license_family: BSD
+  license_file: LICENSE.md
   summary: Simple but powerful APIs for reading & writing many image formats
   description: |
     OpenImageIO consists of:

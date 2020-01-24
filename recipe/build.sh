@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CXXFLAGS="-O2 -Wno-deprecated"
+export CXXFLAGS="$CXXFLAGS -Wno-deprecated -DGIFLIB_MAJOR=5"
 
 # mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
@@ -12,6 +12,6 @@ cmake $SRC_DIR \
 	  -DUSE_OPENCV=OFF \
 	  -DCMAKE_INSTALL_PREFIX=$PREFIX \
 	  -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib \
-	  -DCMAKE_INSTALL_LIBDIR=lib
+	  -DCMAKE_INSTALL_LIBDIR=DCMAKE_INSTALL_LIBDIR
 
 make install -j${CPU_COUNT}
