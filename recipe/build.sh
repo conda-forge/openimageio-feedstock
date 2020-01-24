@@ -14,4 +14,4 @@ cmake $SRC_DIR \
 	  -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib \
 	  -DCMAKE_INSTALL_LIBDIR=lib
 
-make install -j4
+make install -j${CPU_COUNT}
