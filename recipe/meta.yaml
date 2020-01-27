@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "1.8.17" %}
-{% set sha256 = "a019086c05a6150d445a2240bab1723dff540dde5f5c327c36a97f0b5ae0e157" %}
+{% set version = "2.1.10" %}
+{% set sha256 = "f1547f15e9af16792a4ca0881c9298704d56db3e5d1cf41ca7e855a6a7548e66" %}
 
 package:
   name: {{ name }}
@@ -8,11 +8,11 @@ package:
 
 source:
   fn: Release-{{ version }}.tar.gz
-  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.tar.gz
+  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.0.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -22,14 +22,14 @@ requirements:
     - cmake
     - {{ compiler('cxx') }}
   host:
-    - boost ==1.69.0
-    - ffmpeg >=3.4.2,<3.5
+    - boost
+    - ffmpeg
     - giflib
     - jpeg
-    - libpng >=1.6.0,<1.7
-    - libtiff >=4.0.0,<4.1.0
-    - libwebp ==1.0.1
-    - openexr ==2.3.*
+    - libpng
+    - libtiff
+    - libwebp
+    - openexr
   run:
     # boost and libwebp don't have a run_exports section
     - {{ pin_compatible('boost', max_pin='x.x.x') }}
@@ -48,6 +48,7 @@ about:
   home: https://sites.google.com/site/openimageio/home
   license: BSD-3-Clause
   license_family: BSD
+  license_file: LICENSE.md
   summary: Simple but powerful APIs for reading & writing many image formats
   description: |
     OpenImageIO consists of:
