@@ -22,6 +22,8 @@ requirements:
     - cmake
     - {{ compiler('cxx') }}
   host:
+    - python
+    - pybind11
     - boost
     - ffmpeg
     - giflib
@@ -37,12 +39,40 @@ requirements:
     # ffmpeg 3.x does not have a run-export section
     - {{ pin_compatible('ffmpeg', max_pin='x.x') }}
 
-test:
-  commands:
-    - test -d ${PREFIX}/include/OpenImageIO  # [unix]
-    - test -f ${PREFIX}/include/OpenImageIO/oiioversion.h  # [unix]
-    - test -f ${PREFIX}/lib/libOpenImageIO.so  # [linux]
-    - test -f ${PREFIX}/lib/libOpenImageIO.dylib  # [osx]
+outputs:
+  - name: openimageio
+    script: install_lib.sh
+    test:
+      commands:
+        - test -d ${PREFIX}/include/OpenImageIO  # [unix]
+        - test -f ${PREFIX}/include/OpenImageIO/oiioversion.h  # [unix]
+        - test -f ${PREFIX}/lib/libOpenImageIO.so  # [linux]
+        - test -f ${PREFIX}/lib/libOpenImageIO.dylib  # [osx]
+
+  - name: py-openimageio
+    script: install_python.sh
+    requirements:
+      build:
+        - cmake
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('openimageio', exact=True) }}
+        - python
+        - pybind11
+        - boost
+        - ffmpeg
+        - giflib
+        - jpeg
+        - libpng
+        - libtiff
+        - libwebp
+        - openexr
+      run:
+        - {{ pin_subpackage('openimageio', exact=True) }}
+        - python
+    test:
+      imports:
+        - OpenImageIO
 
 about:
   home: https://sites.google.com/site/openimageio/home
