@@ -49,7 +49,7 @@ outputs:
         - test -f ${PREFIX}/lib/libOpenImageIO.so  # [linux]
         - test -f ${PREFIX}/lib/libOpenImageIO.dylib  # [osx]
 
-  - name: openimageio-python
+  - name: py-openimageio
     script: install_python.sh
     requirements:
       build:
