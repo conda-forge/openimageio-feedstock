@@ -42,17 +42,59 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux</td>
+              <td>linux_python2.7</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=linux&configuration=linux_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=linux&configuration=linux_python2.7" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx</td>
+              <td>linux_python3.6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=osx&configuration=osx_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=linux&configuration=linux_python3.6" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_python3.7</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=linux&configuration=linux_python3.7" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_python3.8</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=linux&configuration=linux_python3.8" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_python2.7</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=osx&configuration=osx_python2.7" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_python3.6</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=osx&configuration=osx_python3.6" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_python3.7</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=osx&configuration=osx_python3.7" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_python3.8</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=2634&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openimageio-feedstock?branchName=master&jobName=osx&configuration=osx_python3.8" alt="variant">
                 </a>
               </td>
             </tr>
@@ -81,6 +123,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-openimageio-green.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-py--openimageio-green.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) |
 
 Installing openimageio
 ======================
@@ -91,10 +134,10 @@ Installing `openimageio` from the `conda-forge` channel can be achieved by addin
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `openimageio` can be installed with:
+Once the `conda-forge` channel has been enabled, `openimageio, py-openimageio` can be installed with:
 
 ```
-conda install openimageio
+conda install openimageio py-openimageio
 ```
 
 It is possible to list all of the versions of `openimageio` available on your platform with:
