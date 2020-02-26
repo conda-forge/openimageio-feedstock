@@ -1,0 +1,46 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
+boost:
+- '1.72'
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- clangxx
+cxx_compiler_version:
+- '9'
+ffmpeg:
+- '4.1'
+giflib:
+- '5.2'
+jpeg:
+- '9'
+libpng:
+- '1.6'
+libtiff:
+- 4.1.0
+libwebp:
+- '1.0'
+macos_machine:
+- x86_64-apple-darwin13.4.0
+macos_min_version:
+- '10.9'
+pin_run_as_build:
+  boost:
+    max_pin: x.x.x
+  ffmpeg:
+    max_pin: x.x
+  jpeg:
+    max_pin: x
+  libpng:
+    max_pin: x.x
+  libtiff:
+    max_pin: x
+  libwebp:
+    max_pin: x.x
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- '2.7'
