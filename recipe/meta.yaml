@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "2.1.14" %}
-{% set sha256 = "1dc5fd44a9c84dc95370732372fd5adad4e09a8ff28c641397eb90103b7cf0f0" %}
+{% set version = "2.1.15" %}
+{% set sha256 = "95b90ba22b73765cbcbd9e11891769c2e78696ad24d4af77ef3f3c8674422401" %}
 
 package:
   name: {{ name }}
@@ -100,3 +100,4 @@ extra:
     - SylvainCorlay
     - JohanMabille
     - wolfv
+    - lgritz
