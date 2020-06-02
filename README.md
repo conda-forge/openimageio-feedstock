@@ -198,5 +198,6 @@ Feedstock Maintainers
 
 * [@JohanMabille](https://github.com/JohanMabille/)
 * [@SylvainCorlay](https://github.com/SylvainCorlay/)
+* [@lgritz](https://github.com/lgritz/)
 * [@wolfv](https://github.com/wolfv/)
 
