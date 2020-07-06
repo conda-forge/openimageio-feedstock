@@ -5,7 +5,7 @@ Home: https://sites.google.com/site/openimageio/home
 
 Package license: BSD-3-Clause
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: Simple but powerful APIs for reading & writing many image formats
 
