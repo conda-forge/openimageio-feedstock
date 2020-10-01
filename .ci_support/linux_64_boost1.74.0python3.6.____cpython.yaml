@@ -22,6 +22,8 @@ libtiff:
 - 4.1.0
 libwebp:
 - '1.1'
+openexr:
+- 2.5.1
 pin_run_as_build:
   boost:
     max_pin: x.x.x
