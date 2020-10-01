@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "2.1.20" %}
-{% set sha256 = "5fe09d4f90750468fd1b13161bfe88271aab0ad4bf26fcddd883bbe5d3042661" %}
+{% set version = "2.2.7" %}
+{% set sha256 = "857ac83798d6d2bda5d4d11a90618ff19486da2e5a4c4ff022c5976b5746fe8c" %}
 
 package:
   name: {{ name }}
@@ -32,6 +32,7 @@ requirements:
     - libtiff
     - libwebp
     - openexr
+    - libraw
   run:
     # boost and libwebp don't have a run_exports section
     - {{ pin_compatible('boost', max_pin='x.x.x') }}
