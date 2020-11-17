@@ -1,5 +1,7 @@
 boost:
 - 1.74.0
+cdt_name:
+- cos6
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -9,7 +11,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '7'
 docker_image:
-- condaforge/linux-anvil-comp7
+- quay.io/condaforge/linux-anvil-comp7
 ffmpeg:
 - '4.3'
 giflib:
@@ -18,6 +20,8 @@ jpeg:
 - '9'
 libpng:
 - '1.6'
+libraw:
+- '0.20'
 libtiff:
 - 4.1.0
 libwebp:
