@@ -57,6 +57,7 @@ outputs:
       build:
         - cmake
         - {{ compiler('cxx') }}
+        - make  # [unix]
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
