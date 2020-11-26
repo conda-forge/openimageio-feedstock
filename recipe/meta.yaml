@@ -21,6 +21,7 @@ requirements:
   build:
     - cmake
     - {{ compiler('cxx') }}
+    - make  # [unix]
   host:
     - python
     - pybind11
