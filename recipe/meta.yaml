@@ -1,6 +1,6 @@
 {% set name = "openimageio" %}
-{% set version = "2.2.7" %}
-{% set sha256 = "857ac83798d6d2bda5d4d11a90618ff19486da2e5a4c4ff022c5976b5746fe8c" %}
+{% set version = "2.2.9" %}
+{% set sha256 = "255cfec0d9e94c8cf412bb2187ca85ad22ed1447342e51f2d439c2e1f8f7b96e" %}
 
 package:
   name: {{ name }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
