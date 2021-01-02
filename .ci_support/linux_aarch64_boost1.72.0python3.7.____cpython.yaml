@@ -35,8 +35,6 @@ openexr:
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  ffmpeg:
-    max_pin: x.x
   jpeg:
     max_pin: x
   libpng:

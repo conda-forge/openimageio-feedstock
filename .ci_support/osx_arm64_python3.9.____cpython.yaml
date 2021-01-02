@@ -1,9 +1,9 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+- '11.0'
 boost:
 - 1.74.0
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -25,7 +25,7 @@ libtiff:
 libwebp:
 - '1.1'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 openexr:
 - '2.5'
 pin_run_as_build:
@@ -41,6 +41,6 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.6.* *_cpython
+- 3.9.* *_cpython
 target_platform:
-- osx-64
+- osx-arm64
