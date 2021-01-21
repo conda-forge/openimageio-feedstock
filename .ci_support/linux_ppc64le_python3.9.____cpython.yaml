@@ -1,13 +1,9 @@
-BUILD:
-- aarch64-conda_cos7-linux-gnu
 boost:
-- 1.72.0
-cdt_arch:
-- aarch64
+- 1.74.0
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge
+- conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -15,7 +11,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '9'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64
+- quay.io/condaforge/linux-anvil-ppc64le
 ffmpeg:
 - '4.3'
 giflib:
@@ -27,7 +23,7 @@ libpng:
 libraw:
 - '0.20'
 libtiff:
-- 4.1.0
+- '4'
 libwebp:
 - '1.1'
 openexr:
@@ -35,8 +31,6 @@ openexr:
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  ffmpeg:
-    max_pin: x.x
   jpeg:
     max_pin: x
   libpng:
@@ -47,6 +41,6 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.7.* *_cpython
+- 3.9.* *_cpython
 target_platform:
-- linux-aarch64
+- linux-ppc64le
