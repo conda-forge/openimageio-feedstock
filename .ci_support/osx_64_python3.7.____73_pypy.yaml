@@ -21,7 +21,7 @@ libpng:
 libraw:
 - '0.20'
 libtiff:
-- 4.1.0
+- '4'
 libwebp:
 - '1.1'
 macos_machine:
@@ -31,8 +31,6 @@ openexr:
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  ffmpeg:
-    max_pin: x.x
   jpeg:
     max_pin: x
   libpng:
@@ -43,6 +41,6 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.9.* *_cpython
+- 3.7.* *_73_pypy
 target_platform:
 - osx-64
