@@ -20,8 +20,6 @@ jpeg:
 - '9'
 libpng:
 - '1.6'
-libraw:
-- '0.20'
 libtiff:
 - '4'
 libwebp:
