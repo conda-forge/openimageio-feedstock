@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-ppc64le
 ffmpeg:
@@ -25,7 +25,7 @@ libtiff:
 libwebp:
 - '1'
 openexr:
-- '2.5'
+- '3.1'
 pin_run_as_build:
   boost:
     max_pin: x.x.x
