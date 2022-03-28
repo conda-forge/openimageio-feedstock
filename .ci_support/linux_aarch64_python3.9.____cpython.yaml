@@ -13,11 +13,11 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
-- '4.3'
+- '4.4'
 giflib:
 - '5.2'
 jpeg:
