@@ -17,7 +17,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
-- '4.4'
+- '5'
 giflib:
 - '5.2'
 jpeg:
