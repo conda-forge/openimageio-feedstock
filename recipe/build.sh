@@ -4,7 +4,7 @@ export CXXFLAGS="$CXXFLAGS -Wno-deprecated -DGIFLIB_MAJOR=5"
 
 mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
-cmake $SRC_DIR \
+cmake ${CMAKE_ARGS} $SRC_DIR \
 	  -DUSE_FFMPEG=ON \
 	  -DOIIO_BUILD_TOOLS=OFF \
 	  -DOIIO_BUILD_TESTS=OFF \
