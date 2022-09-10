@@ -1,7 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
 boost:
-- 1.74.0
+- 1.78.0
 channel_sources:
 - conda-forge
 channel_targets:
@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '12'
+- '14'
 ffmpeg:
 - '4.4'
 giflib:
