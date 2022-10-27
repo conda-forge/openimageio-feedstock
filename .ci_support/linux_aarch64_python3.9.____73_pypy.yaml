@@ -1,15 +1,21 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 boost:
-- 1.74.0
+- 1.78.0
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clangxx
+- gxx
 cxx_compiler_version:
-- '12'
+- '10'
+docker_image:
+- quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
 - '4.4'
 giflib:
@@ -22,23 +28,15 @@ libtiff:
 - '4'
 libwebp:
 - '1'
-macos_machine:
-- x86_64-apple-darwin13.4.0
 openexr:
 - '3.1'
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.7.* *_cpython
+- 3.9.* *_73_pypy
 target_platform:
-- osx-64
+- linux-aarch64
