@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CXXFLAGS="$CXXFLAGS -Wno-deprecated -Wno-error=unused-but-set-variable -DGIFLIB_MAJOR=5"
+export CXXFLAGS="$CXXFLAGS -Wno-deprecated -Wno-unused-variable -Wunused-but-set-variable -DGIFLIB_MAJOR=5"
 PY_MAJ_MIN_VER=$(echo $PY_VER | awk -F '.' '{print $1"."$2}')
 
 mkdir -vp ${PREFIX}/bin;
