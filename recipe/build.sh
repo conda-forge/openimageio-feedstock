@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export CXXFLAGS="$CXXFLAGS -Wno-deprecated -Wno-error=unused-but-set-variable -DGIFLIB_MAJOR=5"
+PY_MAJ_MIN_VER=$(echo $PY_VER | cut -d '.' -f1 -f2)
 
 mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
@@ -15,8 +16,8 @@ cmake ${CMAKE_ARGS} $SRC_DIR \
 	  -DCMAKE_INSTALL_LIBDIR=lib \
 	  -DCMAKE_BUILD_TYPE=Release \
 	  -DPYTHON_VERSION=$PY_VER \
-	  -DPYTHON_INCLUDE_DIR=$BUILD_PREFIX/include/python3.10 \
-	  -DPYTHON_LIBRARIES=$PREFIX/lib/libpython3.10.dylib \
+	  -DPYTHON_INCLUDE_DIR=$BUILD_PREFIX/include/python$PY_MAJ_MIN_VER \
+	  -DPYTHON_LIBRARIES=$PREFIX/lib/libpython${PY_MAJ_MIN_VER}.dylib \
 	  -DUSE_STD_REGEX_EXITCODE=0 \
 	  -DUSE_STD_REGEX_EXITCODE__TRYRUN_OUTPUT=''
 
