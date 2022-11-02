@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CXXFLAGS="$CXXFLAGS -Wno-deprecated -Wno-error=unused-but-set-variable -DGIFLIB_MAJOR=5"
-PY_MAJ_MIN_VER=$(echo $PY_VER | cut -d '.' -f1 -f2)
+PY_MAJ_MIN_VER=$(echo $PY_VER | awk -F '.' '{print $1"."$2}')
 
 mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
