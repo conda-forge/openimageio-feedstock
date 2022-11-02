@@ -23,6 +23,7 @@ requirements:
     - {{ compiler('cxx') }}
     - make  # [unix]
     - pybind11
+    - python
   host:
     - python
     - pybind11
@@ -59,6 +60,8 @@ outputs:
         - cmake
         - {{ compiler('cxx') }}
         - make  # [unix]
+        - python
+        - pybind11
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
