@@ -2,7 +2,7 @@
 
 # suppress warnings for clang..
 if [ $(uname) == "Darwin" ]; then
-  additional_cxx_flags='-Wno-unused-private-field'
+  additional_cxx_flags='-Wno-unused-private-field -Wno-error=unused-but-set-variable'
 # and gcc
 elif [ $(uname) == "Linux" ]; then
   additional_cxx_flags='-Wno-deprecated -Wno-unused-variable -Wno-unused-but-set-variable'
