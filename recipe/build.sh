@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CXXFLAGS="$CXXFLAGS -Wno-deprecated -DGIFLIB_MAJOR=5"
+export CXXFLAGS="$CXXFLAGS -Wno-deprecated -Wno-error=unused-but-set-variable -DGIFLIB_MAJOR=5"
 
 mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
