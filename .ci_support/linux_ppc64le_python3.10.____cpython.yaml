@@ -1,5 +1,5 @@
 boost:
-- 1.74.0
+- 1.78.0
 cdt_name:
 - cos7
 channel_sources:
@@ -29,12 +29,6 @@ openexr:
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x
