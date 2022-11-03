@@ -1,5 +1,5 @@
 {% set name = "openimageio" %}
-{% set version = "2.2.18" %}
+{% set version = "2.4.5" %}
 {% set sha256 = "b8dd189fbc97f1b172528e324daa904f74a166bad62c32e7166ca6c866734a29" %}
 
 package:
