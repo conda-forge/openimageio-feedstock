@@ -8,7 +8,7 @@ package:
 
 source:
   fn: Release-{{ version }}.tar.gz
-  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.0.tar.gz
+  url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.0.tar.gz
   sha256: {{ sha256 }}
 
 build:
