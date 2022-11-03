@@ -18,6 +18,7 @@ mkdir -vp ${PREFIX}/bin;
 mkdir build; cd build;
 cmake ${CMAKE_ARGS} $SRC_DIR \
   -DVERBOSE=1 \
+  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
   -DUSE_FFMPEG=ON \
   -DOIIO_BUILD_TOOLS=OFF \
   -DOIIO_BUILD_TESTS=OFF \
