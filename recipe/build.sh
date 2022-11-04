@@ -3,8 +3,11 @@
 # suppress warnings for clang..
 if [ $(uname) == "Darwin" ]; then
   additional_cxx_flags='-Wno-unused-private-field -Wno-error=unused-but-set-variable'
-  echo "Checking which stat.h file contains UTIME_OMIT.."
-  locate stat.h | sort | grep -e '\/stat.h$' | xargs grep UTIME_OMIT --color
+  echo "--> [START] Checking which stat.h file contains UTIME_OMIT.."
+  find /usr -path '*/sys/stat.h' -type f 2>&1 | grep -v "denied" | grep -v "permitted" | sort | grep -e '\/stat.h$' | xargs grep UTIME_OMIT --color
+  find /Library -path '*/sys/stat.h' -type f 2>&1 | grep -v "denied" | grep -v "permitted" | sort | grep -e '\/stat.h$' | xargs grep UTIME_OMIT --color
+  find /Applications -path '*/sys/stat.h' -type f 2>&1 | grep -v "denied" | grep -v "permitted" | sort | grep -e '\/stat.h$' | xargs grep UTIME_OMIT --color
+  echo "--> [END] "
 # and gcc
 elif [ $(uname) == "Linux" ]; then
   additional_cxx_flags='-Wno-deprecated -Wno-unused-variable -Wno-unused-but-set-variable'
