@@ -42,7 +42,7 @@ requirements:
     - {{ pin_compatible('libwebp', max_pin='x.x') }}
     # ffmpeg 3.x does not have a run-export section
     - {{ pin_compatible('ffmpeg', max_pin='x.x') }}
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}
+    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }} # [osx and x86_64]
 
 outputs:
   - name: openimageio
