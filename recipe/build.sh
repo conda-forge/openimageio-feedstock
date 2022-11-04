@@ -4,7 +4,7 @@
 if [ $(uname) == "Darwin" ]; then
   additional_cxx_flags='-Wno-unused-private-field -Wno-error=unused-but-set-variable'
   echo "--> [START] Checking if stat.h files contains UTIME_OMIT.."
-  find /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs -type f -name 'stat.h' -exec grep -H --color -e UTIME
+  find /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs -type f -name 'stat.h' -exec grep -H --color -e UTIME {} \;
   echo "--> [END] "
 # and gcc
 elif [ $(uname) == "Linux" ]; then
