@@ -1,7 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
 boost:
-- 1.74.0
+- 1.78.0
 cdt_arch:
 - aarch64
 cdt_name:
@@ -33,12 +33,6 @@ openexr:
 pin_run_as_build:
   boost:
     max_pin: x.x.x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x
