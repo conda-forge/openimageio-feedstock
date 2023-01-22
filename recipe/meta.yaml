@@ -1,21 +1,18 @@
-{% set name = "openimageio" %}
 {% set version = "2.4.7.1" %}
-{% set sha256 = "b8dd189fbc97f1b172528e324daa904f74a166bad62c32e7166ca6c866734a29" %}
 
 package:
-  name: {{ name }}
+  name: openimageio
   version: {{ version }}
 
 source:
-  fn: Release-{{ version }}.tar.gz
-  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: fd298f71e44c6776863db4b37c4a1388dba0d2eb37378afea95ab07a7cd6ecd4
 
 build:
   number: 0
   skip: true  # [win]
   run_exports:
-    - {{ pin_subpackage(name, max_pin='x.x') }}
+    - {{ pin_subpackage('openimageio', max_pin='x.x') }}
 
 requirements:
   build:
@@ -94,6 +91,8 @@ about:
     - An ImageCache class that transparently manages a cache so that it can access truly
       vast amounts of image data (tens of thousands of image files totaling multiple TB)
       very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+
+  dev_url: https://github.com/OpenImageIO/oiio
 
 extra:
   recipe-maintainers:
