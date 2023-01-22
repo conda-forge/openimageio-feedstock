@@ -1,5 +1,5 @@
 {% set name = "openimageio" %}
-{% set version = "2.2.18" %}
+{% set version = "2.4.7.1" %}
 {% set sha256 = "b8dd189fbc97f1b172528e324daa904f74a166bad62c32e7166ca6c866734a29" %}
 
 package:
@@ -8,11 +8,11 @@ package:
 
 source:
   fn: Release-{{ version }}.tar.gz
-  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.0.tar.gz
+  url: https://github.com/OpenImageIO/oiio/archive/Release-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -37,9 +37,6 @@ requirements:
   run:
     # boost and libwebp don't have a run_exports section
     - {{ pin_compatible('boost', max_pin='x.x.x') }}
-    - {{ pin_compatible('libwebp', max_pin='x.x') }}
-    # ffmpeg 3.x does not have a run-export section
-    - {{ pin_compatible('ffmpeg', max_pin='x.x') }}
 
 outputs:
   - name: openimageio
