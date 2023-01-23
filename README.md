@@ -9,6 +9,8 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/openimageio-fee
 
 Summary: Simple but powerful APIs for reading & writing many image formats
 
+Development: https://github.com/OpenImageIO/oiio
+
 OpenImageIO consists of:
 - Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction
   for reading and writing image files of nearly any format, without the calling
