@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
@@ -25,7 +25,7 @@ requirements:
   host:
     - python
     - pybind11
-    - boost
+    - libboost-python-devel
     - ffmpeg
     - giflib
     - jpeg
@@ -36,7 +36,6 @@ requirements:
     - libraw
   run:
     # boost and libwebp don't have a run_exports section
-    - {{ pin_compatible('boost', max_pin='x.x.x') }}
     - {{ pin_compatible('libwebp', max_pin='x.x') }}
     # ffmpeg 3.x does not have a run-export section
     - {{ pin_compatible('ffmpeg', max_pin='x.x') }}
@@ -62,7 +61,7 @@ outputs:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
         - pybind11
-        - boost
+        - libboost-python-devel
         - ffmpeg
         - giflib
         - jpeg
