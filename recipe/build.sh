@@ -18,7 +18,7 @@ cmake ${CMAKE_ARGS} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_BUILD_TYPE=Release \
     -DPYTHON_VERSION=$PY_VER \
-    -DPython_FIND_VIRTUALENV=First \
+    -DPython_FIND_STRATEGY=LOCATION \
     ..
 
 make all -j${CPU_COUNT}
