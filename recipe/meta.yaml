@@ -22,17 +22,18 @@ requirements:
   host:
     - python
     - pybind11
-    - libboost-python-devel
+    - libboost-devel
     - ffmpeg
+    - freetype
     - giflib
+    - imath
     - libjpeg-turbo
     - libpng
     - libtiff
     - libwebp
     - openexr
     - libraw
-  run:
-    # boost and libwebp don't have a run_exports section
+    - zlib
 
 outputs:
   - name: openimageio
@@ -55,14 +56,8 @@ outputs:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
         - pybind11
-        - libboost-python-devel
-        - ffmpeg
-        - giflib
-        - libjpeg-turbo
-        - libpng
-        - libtiff
-        - libwebp
-        - openexr
+        - libboost-headers
+        - imath
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
