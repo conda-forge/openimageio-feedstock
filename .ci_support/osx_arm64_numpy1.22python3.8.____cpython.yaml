@@ -1,0 +1,50 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- clangxx
+cxx_compiler_version:
+- '15'
+ffmpeg:
+- '6'
+freetype:
+- '2'
+giflib:
+- '5.2'
+imath:
+- 3.1.9
+libboost_devel:
+- '1.82'
+libjpeg_turbo:
+- 2.1.5
+libpng:
+- '1.6'
+libraw:
+- '0.21'
+libtiff:
+- '4.5'
+libwebp:
+- '1'
+macos_machine:
+- arm64-apple-darwin20.0.0
+numpy:
+- '1.22'
+openexr:
+- '3.2'
+pin_run_as_build:
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- 3.8.* *_cpython
+target_platform:
+- osx-arm64
+zip_keys:
+- - python
+  - numpy
+  - channel_sources
+zlib:
+- '1.2'
