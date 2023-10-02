@@ -13,7 +13,7 @@ docker_image:
 ffmpeg:
 - '6'
 fmt:
-- '9'
+- '10'
 freetype:
 - '2'
 giflib:
