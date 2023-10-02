@@ -39,6 +39,8 @@ requirements:
     - openexr
     - libraw
     - zlib
+    - fmt
+    - tsl_robin_map
 
 outputs:
   - name: openimageio
