@@ -25,7 +25,7 @@ requirements:
     - boost
     - ffmpeg
     - giflib
-    - jpeg
+    - libjpeg-turbo
     - libpng
     - libtiff
     - libwebp
@@ -59,7 +59,7 @@ outputs:
         - boost
         - ffmpeg
         - giflib
-        - jpeg
+        - libjpeg-turbo
         - libpng
         - libtiff
         - libwebp
