@@ -1,4 +1,4 @@
-{% set version = "2.4.15.0" %}
+{% set version = "2.4.16.0" %}
 
 package:
   name: openimageio
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 67f28a1599eb942a075f23cc35c938f7de0b901a40583da6798cf9a418c56e07
+  sha256: a8cea8b6087610e5154fbbe028548ab4fc773eb36531eef44ffb42351bc0b0f0
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('openimageio', max_pin='x.x') }}
