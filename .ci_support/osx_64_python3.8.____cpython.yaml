@@ -2,8 +2,6 @@ MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
 MACOSX_SDK_VERSION:
 - '11.0'
-boost:
-- 1.78.0
 channel_sources:
 - conda-forge
 channel_targets:
@@ -16,6 +14,8 @@ ffmpeg:
 - '6'
 giflib:
 - '5.2'
+libboost_python_devel:
+- '1.82'
 libjpeg_turbo:
 - 2.1.5
 libpng:
@@ -31,8 +31,6 @@ macos_machine:
 openexr:
 - '3.2'
 pin_run_as_build:
-  boost:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x

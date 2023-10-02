@@ -1,7 +1,5 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
-boost:
-- 1.78.0
 cdt_arch:
 - aarch64
 cdt_name:
@@ -20,6 +18,8 @@ ffmpeg:
 - '6'
 giflib:
 - '5.2'
+libboost_python_devel:
+- '1.82'
 libjpeg_turbo:
 - 2.1.5
 libpng:
@@ -33,8 +33,6 @@ libwebp:
 openexr:
 - '3.2'
 pin_run_as_build:
-  boost:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
