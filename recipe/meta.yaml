@@ -19,11 +19,13 @@ requirements:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
     - cmake
     - {{ compiler('cxx') }}
     - make  # [unix]
   host:
     - python
+    - numpy
     - pybind11
     - libboost-devel
     - ffmpeg
@@ -52,17 +54,23 @@ outputs:
     script: install_python.sh
     requirements:
       build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - pybind11                               # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
         - cmake
         - {{ compiler('cxx') }}
         - make  # [unix]
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - python
+        - numpy
         - pybind11
         - libboost-headers
         - imath
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
+        - {{ pin_compatible('numpy') }}
         - python
     test:
       imports:
