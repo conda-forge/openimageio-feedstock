@@ -19,6 +19,7 @@ cmake ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
     -DPYTHON_VERSION=$PY_VER \
     -DPython_FIND_STRATEGY=LOCATION \
+    -DPython_FIND_VIRTUALENV=First \
     ..
 
 make all -j${CPU_COUNT}
