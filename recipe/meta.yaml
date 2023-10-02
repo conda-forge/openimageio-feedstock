@@ -7,6 +7,9 @@ package:
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 2e262ae5e5281f839651cd706e417c83c58294a26527ec184b466a2ba6ca31dc
+  patches:
+    # https://github.com/AcademySoftwareFoundation/OpenImageIO/pull/4000
+    - 4000-findpython.patch
 
 build:
   number: 0
