@@ -12,9 +12,13 @@ docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
 - '6'
+freetype:
+- '2'
 giflib:
 - '5.2'
-libboost_python_devel:
+imath:
+- 3.1.9
+libboost_devel:
 - '1.82'
 libjpeg_turbo:
 - 2.1.5
@@ -36,3 +40,5 @@ python:
 - 3.8.* *_cpython
 target_platform:
 - linux-64
+zlib:
+- '1.2'

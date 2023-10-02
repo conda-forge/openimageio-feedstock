@@ -16,9 +16,13 @@ docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
 - '6'
+freetype:
+- '2'
 giflib:
 - '5.2'
-libboost_python_devel:
+imath:
+- 3.1.9
+libboost_devel:
 - '1.82'
 libjpeg_turbo:
 - 2.1.5
@@ -40,3 +44,5 @@ python:
 - 3.10.* *_cpython
 target_platform:
 - linux-aarch64
+zlib:
+- '1.2'
