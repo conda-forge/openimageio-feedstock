@@ -1,7 +1,7 @@
 {% set version = "2.5.9.0" %}
 
 package:
-  name: openimageio
+  name: openimageio-split
   version: {{ version }}
 
 source:
@@ -11,8 +11,6 @@ source:
 build:
   number: 2
   skip: true  # [win]
-  run_exports:
-    - {{ pin_subpackage('openimageio', max_pin='x.x') }}
 
 requirements:
   build:
@@ -46,6 +44,34 @@ requirements:
 outputs:
   - name: openimageio
     script: install_lib.sh
+    build:
+      run_exports:
+        - {{ pin_subpackage('openimageio', max_pin='x.x') }}
+    requirements:
+      build:
+        # for strong run-exports
+        - {{ stdlib("c") }}
+        - {{ compiler("cxx") }}
+        - cmake
+        - make  # [unix]
+      host:
+        - python
+        - numpy
+        - pybind11
+        - ffmpeg
+        - fmt
+        - freetype
+        - giflib
+        - imath
+        - libboost-devel
+        - libjpeg-turbo
+        - libpng
+        - libraw
+        - libtiff
+        - libwebp
+        - openexr
+        - tsl_robin_map
+        - zlib
     test:
       commands:
         - test -d ${PREFIX}/include/OpenImageIO  # [unix]
@@ -111,3 +137,4 @@ extra:
     - JohanMabille
     - wolfv
     - lgritz
+  feedstock-name: openimageio

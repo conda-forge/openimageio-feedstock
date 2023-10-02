@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 export CXXFLAGS="$CXXFLAGS -DGIFLIB_MAJOR=5"
 
