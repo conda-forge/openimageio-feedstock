@@ -70,6 +70,9 @@ outputs:
         - pybind11
         - libboost-headers
         - imath
+        # header only, so re-added here so cmake thinks it is the same
+        # environment as before
+        - tsl_robin_map
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - {{ pin_compatible('numpy') }}
