@@ -9,7 +9,8 @@ source:
   sha256: 2e262ae5e5281f839651cd706e417c83c58294a26527ec184b466a2ba6ca31dc
   patches:
     # https://github.com/AcademySoftwareFoundation/OpenImageIO/pull/4000
-    - 4000-findpython.patch
+    # - 4000-findpython.patch
+    - print_module_extension.patch
 
 build:
   number: 1
