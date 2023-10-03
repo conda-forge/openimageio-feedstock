@@ -33,7 +33,7 @@ libpng:
 libraw:
 - '0.21'
 libtiff:
-- '4.5'
+- '4.6'
 libwebp:
 - '1'
 numpy:
@@ -51,6 +51,5 @@ target_platform:
 zip_keys:
 - - python
   - numpy
-  - channel_sources
 zlib:
 - '1.2'
