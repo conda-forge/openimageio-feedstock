@@ -42,6 +42,8 @@ requirements:
     - openexr
     - libraw
     - zlib
+    - fmt
+    - tsl_robin_map
 
 outputs:
   - name: openimageio
@@ -71,6 +73,8 @@ outputs:
         - pybind11
         - libboost-headers
         - imath
+        - fmt
+        - tsl_robin_map
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - {{ pin_compatible('numpy') }}
