@@ -10,6 +10,8 @@ cxx_compiler_version:
 - '15'
 ffmpeg:
 - '6'
+fmt:
+- '10'
 freetype:
 - '2'
 giflib:
@@ -25,7 +27,7 @@ libpng:
 libraw:
 - '0.21'
 libtiff:
-- '4.5'
+- '4.6'
 libwebp:
 - '1'
 macos_machine:
@@ -45,6 +47,5 @@ target_platform:
 zip_keys:
 - - python
   - numpy
-  - channel_sources
 zlib:
 - '1.2'

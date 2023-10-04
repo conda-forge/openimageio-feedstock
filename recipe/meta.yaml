@@ -1,4 +1,4 @@
-{% set version = "2.4.16.0" %}
+{% set version = "2.5.4.0" %}
 
 package:
   name: openimageio
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: a8cea8b6087610e5154fbbe028548ab4fc773eb36531eef44ffb42351bc0b0f0
+  sha256: 2e262ae5e5281f839651cd706e417c83c58294a26527ec184b466a2ba6ca31dc
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('openimageio', max_pin='x.x') }}
@@ -39,6 +39,8 @@ requirements:
     - openexr
     - libraw
     - zlib
+    - fmt
+    - tsl_robin_map
 
 outputs:
   - name: openimageio
@@ -68,6 +70,8 @@ outputs:
         - pybind11
         - libboost-headers
         - imath
+        - fmt
+        - tsl_robin_map
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - {{ pin_compatible('numpy') }}
