@@ -7,7 +7,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '15'
+- '16'
 ffmpeg:
 - '6'
 fmt:
@@ -21,7 +21,7 @@ imath:
 libboost_devel:
 - '1.82'
 libjpeg_turbo:
-- 2.1.5
+- '3'
 libpng:
 - '1.6'
 libraw:
