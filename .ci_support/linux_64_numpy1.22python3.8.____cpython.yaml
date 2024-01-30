@@ -19,7 +19,7 @@ freetype:
 giflib:
 - '5.2'
 imath:
-- 3.1.9
+- 3.1.10
 libboost_devel:
 - '1.82'
 libjpeg_turbo:
