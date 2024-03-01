@@ -2,6 +2,10 @@
 
 export CXXFLAGS="$CXXFLAGS -DGIFLIB_MAJOR=5"
 
+if [ ${target_platform} == "linux-aarch64" ]; then
+    export CXXFLAGS="$CXXFLAGS -flax-vector-conversions"
+fi
+
 mkdir -p ${PREFIX}/bin
 
 mkdir build
