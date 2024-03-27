@@ -9,7 +9,7 @@ source:
   sha256: b6a68e369bc475525eb843bdc0cb8adc910cc71000825f8db9b5e136166cdc78
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('openimageio', max_pin='x.x') }}
@@ -22,6 +22,7 @@ requirements:
     - numpy                                  # [build_platform != target_platform]
     - cmake
     - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - make  # [unix]
   host:
     - python
@@ -62,6 +63,7 @@ outputs:
         - numpy                                  # [build_platform != target_platform]
         - cmake
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - make  # [unix]
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
