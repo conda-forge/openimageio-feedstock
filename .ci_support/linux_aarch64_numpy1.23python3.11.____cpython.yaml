@@ -21,7 +21,7 @@ docker_image:
 ffmpeg:
 - '6'
 fmt:
-- '10'
+- '11'
 freetype:
 - '2'
 giflib:
@@ -58,4 +58,4 @@ zip_keys:
 - - python
   - numpy
 zlib:
-- '1.2'
+- '1'
