@@ -29,7 +29,7 @@ giflib:
 imath:
 - 3.1.11
 libboost_devel:
-- '1.84'
+- '1.86'
 libjpeg_turbo:
 - '3'
 libpng:
@@ -58,4 +58,4 @@ zip_keys:
 - - python
   - numpy
 zlib:
-- '1.2'
+- '1'
