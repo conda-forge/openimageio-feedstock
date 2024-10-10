@@ -13,7 +13,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '16'
+- '17'
 ffmpeg:
 - '6'
 fmt:
@@ -23,8 +23,10 @@ freetype:
 giflib:
 - '5.2'
 imath:
-- 3.1.11
+- 3.1.12
 libboost_devel:
+- '1.86'
+libboost_headers:
 - '1.86'
 libjpeg_turbo:
 - '3'
@@ -33,7 +35,7 @@ libpng:
 libraw:
 - '0.21'
 libtiff:
-- '4.6'
+- '4.7'
 libwebp:
 - '1'
 macos_machine:
