@@ -15,11 +15,11 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '12'
+- '13'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
-- '6'
+- '7'
 fmt:
 - '10'
 freetype:
@@ -27,8 +27,10 @@ freetype:
 giflib:
 - '5.2'
 imath:
-- 3.1.11
+- 3.1.12
 libboost_devel:
+- '1.84'
+libboost_headers:
 - '1.84'
 libjpeg_turbo:
 - '3'
@@ -37,13 +39,13 @@ libpng:
 libraw:
 - '0.21'
 libtiff:
-- '4.6'
+- '4.7'
 libwebp:
 - '1'
 numpy:
 - '1.22'
 openexr:
-- '3.2'
+- '3.3'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -58,4 +60,4 @@ zip_keys:
 - - python
   - numpy
 zlib:
-- '1.2'
+- '1'
