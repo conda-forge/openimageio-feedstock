@@ -100,6 +100,7 @@ outputs:
         - imath
         - fmt
         - tsl_robin_map
+        - zlib
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
         - {{ pin_compatible('numpy') }}
