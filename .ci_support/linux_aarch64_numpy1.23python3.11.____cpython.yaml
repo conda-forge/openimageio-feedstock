@@ -26,8 +26,8 @@ imath:
 - 3.1.12
 libboost_devel:
 - '1.86'
-libboost_headers:
-- '1.86'
+libheif:
+- '1.19'
 libjpeg_turbo:
 - '3'
 libpng:
@@ -50,6 +50,8 @@ python:
 - 3.11.* *_cpython
 target_platform:
 - linux-aarch64
+tbb_devel:
+- '2021'
 zip_keys:
 - - python
   - numpy
