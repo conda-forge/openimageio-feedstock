@@ -26,20 +26,20 @@ requirements:
     - python
     - numpy
     - pybind11
-    - libboost-devel
     - ffmpeg
+    - fmt
     - freetype
     - giflib
     - imath
+    - libboost-devel
     - libjpeg-turbo
     - libpng
+    - libraw
     - libtiff
     - libwebp
     - openexr
-    - libraw
-    - zlib
-    - fmt
     - tsl_robin_map
+    - zlib
 
 outputs:
   - name: openimageio
