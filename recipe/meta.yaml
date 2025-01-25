@@ -100,6 +100,7 @@ outputs:
         - ninja
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
+        - imath
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
     test:
