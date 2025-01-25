@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 export CXXFLAGS="$CXXFLAGS -DGIFLIB_MAJOR=5"
 
@@ -22,7 +23,8 @@ else
     Python_EXECUTABLE=${PYTHON}
 fi
 
-cmake ${CMAKE_ARGS} \
+cmake -G Ninja \
+    ${CMAKE_ARGS} \
     -DUSE_FFMPEG=ON \
     -DOIIO_BUILD_TOOLS=OFF \
     -DOIIO_BUILD_TESTS=OFF \
@@ -35,6 +37,7 @@ cmake ${CMAKE_ARGS} \
     -DINTERNALIZE_FMT=OFF \
     ..
 
-make all -j${CPU_COUNT}
+# Do not install, only build.
+cmake --build . --config Release
 
 popd
