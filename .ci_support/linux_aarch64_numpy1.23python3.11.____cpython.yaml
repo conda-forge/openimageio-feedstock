@@ -17,7 +17,7 @@ docker_image:
 ffmpeg:
 - '7'
 fmt:
-- '10'
+- '11'
 freetype:
 - '2'
 giflib:
@@ -42,6 +42,8 @@ numpy:
 - '1.23'
 openexr:
 - '3.3'
+openjpeg:
+- '2'
 pin_run_as_build:
   python:
     min_pin: x.x
