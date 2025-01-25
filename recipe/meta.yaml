@@ -18,10 +18,10 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - cmake
-    - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    - make  # [unix]
+    - {{ compiler("cxx") }}
+    - cmake
+    - ninja
   host:
     - python
     - numpy
@@ -56,7 +56,7 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler("cxx") }}
         - cmake
-        - make  # [unix]
+        - ninja
       host:
         - python
         - numpy
@@ -93,24 +93,15 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - pybind11                               # [build_platform != target_platform]
         - numpy                                  # [build_platform != target_platform]
-        - cmake
-        - {{ compiler('cxx') }}
+        # for strong run-exports
         - {{ stdlib("c") }}
-        - make  # [unix]
+        - {{ compiler("cxx") }}
+        - cmake
+        - ninja
       host:
         - {{ pin_subpackage('openimageio', exact=True) }}
-        - python
-        - numpy
-        - pybind11
-        - libboost-headers
-        - imath
-        - fmt
-        - tsl_robin_map
-        - zlib
       run:
         - {{ pin_subpackage('openimageio', exact=True) }}
-        - {{ pin_compatible('numpy') }}
-        - python
     test:
       imports:
         - OpenImageIO

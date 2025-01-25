@@ -1,4 +1,4 @@
-cd build
-make install -j${CPU_COUNT}
+#!/bin/bash
+set -ex
 
-# $PYTHON $RECIPE_DIR/clean_python.py
+cmake --install ./build --prefix=$PREFIX
