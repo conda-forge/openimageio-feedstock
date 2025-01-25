@@ -32,12 +32,15 @@ requirements:
     - giflib
     - imath
     - libboost-devel
+    - libheif
     - libjpeg-turbo
     - libpng
     - libraw
     - libtiff
     - libwebp
     - openexr
+    - openjpeg
+    - tbb-devel
     - tsl_robin_map
     - zlib
 
@@ -64,12 +67,15 @@ outputs:
         - giflib
         - imath
         - libboost-devel
+        - libheif
         - libjpeg-turbo
         - libpng
         - libraw
         - libtiff
         - libwebp
         - openexr
+        - openjpeg
+        - tbb-devel
         - tsl_robin_map
         - zlib
     test:
