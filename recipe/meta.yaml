@@ -1,4 +1,4 @@
-{% set version = "2.5.18.0" %}
+{% set version = "3.0.2.0" %}
 
 package:
   name: openimageio-split
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: f57481435cec18633d3eba9b2e8c483fc1df6f0a01c5c9f98cbae6d1c52928e5
+  sha256: 93f8bb261dada2458de6c690e730d3e5dfd3cda44fc2e76cff2dc4cf1ecb05ff
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
 
 requirements:
