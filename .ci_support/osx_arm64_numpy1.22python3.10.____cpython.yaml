@@ -17,7 +17,7 @@ cxx_compiler_version:
 ffmpeg:
 - '7'
 fmt:
-- '11'
+- '11.1'
 freetype:
 - '2'
 giflib:
