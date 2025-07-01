@@ -17,7 +17,7 @@ docker_image:
 ffmpeg:
 - '7'
 fmt:
-- '11.1'
+- '11.2'
 freetype:
 - '2'
 giflib:
@@ -39,7 +39,7 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '1.22'
+- '2'
 openexr:
 - '3.3'
 openjpeg:
@@ -54,8 +54,5 @@ target_platform:
 - linux-aarch64
 tbb_devel:
 - '2021'
-zip_keys:
-- - python
-  - numpy
 zlib:
 - '1'
