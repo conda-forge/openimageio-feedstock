@@ -54,5 +54,8 @@ target_platform:
 - linux-ppc64le
 tbb_devel:
 - '2021'
+zip_keys:
+- - python
+  - channel_sources
 zlib:
 - '1'
