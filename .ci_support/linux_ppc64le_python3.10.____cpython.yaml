@@ -41,7 +41,7 @@ libwebp:
 numpy:
 - '2'
 openexr:
-- '3.3'
+- '3.4'
 openjpeg:
 - '2'
 pin_run_as_build:
