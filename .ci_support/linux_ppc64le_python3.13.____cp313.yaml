@@ -13,7 +13,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-x86_64:alma9
 ffmpeg:
-- '7'
+- '8'
 fmt:
 - '12.0'
 freetype:
@@ -51,6 +51,6 @@ python:
 target_platform:
 - linux-ppc64le
 tbb_devel:
-- '2021'
+- '2022'
 zlib:
 - '1'
