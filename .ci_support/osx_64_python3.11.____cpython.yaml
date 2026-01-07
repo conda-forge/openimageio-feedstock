@@ -15,7 +15,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '19'
 ffmpeg:
-- '8'
+- '7'
 fmt:
 - '12.1'
 freetype:
