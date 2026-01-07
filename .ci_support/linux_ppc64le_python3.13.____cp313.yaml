@@ -15,7 +15,7 @@ docker_image:
 ffmpeg:
 - '7'
 fmt:
-- '12.0'
+- '12.1'
 freetype:
 - '2'
 giflib:
@@ -51,6 +51,6 @@ python:
 target_platform:
 - linux-ppc64le
 tbb_devel:
-- '2021'
+- '2022'
 zlib:
 - '1'
