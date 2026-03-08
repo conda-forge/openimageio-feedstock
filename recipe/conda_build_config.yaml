@@ -5,3 +5,6 @@ MACOSX_SDK_VERSION:        # [osx and x86_64]
 # error: 'avcodec_close' was not declared in this scope
 ffmpeg:
   - 7
+
+numpy:
+  - 2
