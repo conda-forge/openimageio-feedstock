@@ -11,6 +11,8 @@ Summary: Simple but powerful APIs for reading & writing many image formats
 
 Development: https://github.com/OpenImageIO/oiio
 
+Documentation: https://openimageio.readthedocs.io/en/latest/
+
 OpenImageIO consists of:
 - Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction
   for reading and writing image files of nearly any format, without the calling
@@ -24,7 +26,6 @@ OpenImageIO consists of:
 - An ImageCache class that transparently manages a cache so that it can access truly
   vast amounts of image data (tens of thousands of image files totaling multiple TB)
   very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
-
 
 Current build status
 ====================
