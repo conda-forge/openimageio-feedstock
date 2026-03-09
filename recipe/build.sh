@@ -52,4 +52,7 @@ cmake "${cmake_args[@]}" ..
 cmake --build . --config Release
 cmake --install . --prefix=$PREFIX
 
+# remove folders that should not be needed at runtime by conda-forge packages.
+rm -rf $PREFIX/share/doc/OpenImageIO
+
 popd

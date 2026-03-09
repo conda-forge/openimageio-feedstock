@@ -52,26 +52,22 @@ outputs:
           - ${{ pin_subpackage("openimageio", upper_bound="x.x") }}
     build:
       number: ${{ build_number }}
-      string: h${{ hash }}_${{ build_number }}
       script:
-        - export OIIO_BUILD_PYTHON=0
-        - bash "${RECIPE_DIR}/build.sh"
-      files:
-        include:
-          - include/OpenImageIO/**
-          - lib/cmake/OpenImageIO/**
-          - lib/libOpenImageIO*
-          - lib/libOpenImageIO_Util*
-          - lib/pkgconfig/OpenImageIO.pc
-          - share/fonts/OpenImageIO/**
-          # The docs were included in the old split layout, these are documented for parity but should be fine to exclude.
-          # - share/doc/OpenImageIO/**
+        env:
+          OIIO_BUILD_PYTHON: "0"
+        file: bash "${RECIPE_DIR}/build.sh"
     tests:
       - package_contents:
+          include:
+            - OpenImageIO/oiioversion.h
+          lib:
+            - OpenImageIO
+            - OpenImageIO_Util
           files:
-            - include/OpenImageIO/oiioversion.h
-            - lib/cmake/OpenImageIO/*
-            - lib/libOpenImageIO*
+            - lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
+            - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
+            - lib/pkgconfig/OpenImageIO.pc
+            - share/fonts/OpenImageIO/DroidSans.ttf
 
   - package:
       name: py-openimageio
@@ -134,15 +130,10 @@ outputs:
       number: ${{ build_number }}
       string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ build_number }}
       script:
-        - export OIIO_BUILD_PYTHON=1
-        - bash "${RECIPE_DIR}/build.sh"
-      files:
-        include:
-          - lib/python*/site-packages/OpenImageIO/**
+        env:
+          OIIO_BUILD_PYTHON: "1"
+        file: bash "${RECIPE_DIR}/build.sh"
     tests:
-      - package_contents:
-          files:
-            - lib/python*/site-packages/OpenImageIO*
       - python:
           imports:
             - OpenImageIO
