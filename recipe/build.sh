@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+OIIO_BUILD_PYTHON="${OIIO_BUILD_PYTHON:-1}"
+
 export CXXFLAGS="$CXXFLAGS -DGIFLIB_MAJOR=5"
 
 if [ ${target_platform} == "linux-aarch64" ]; then
@@ -9,7 +11,7 @@ fi
 
 mkdir -p ${PREFIX}/bin
 
-mkdir build
+mkdir -p build
 
 pushd build;
 
@@ -23,21 +25,34 @@ else
     Python_EXECUTABLE=${PYTHON}
 fi
 
-cmake -G Ninja \
-    ${CMAKE_ARGS} \
-    -DUSE_FFMPEG=ON \
-    -DOIIO_BUILD_TOOLS=OFF \
-    -DOIIO_BUILD_TESTS=OFF \
-    -DUSE_PYTHON=ON \
-    -DUSE_OPENCV=OFF \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DPYTHON_VERSION=$PY_VER \
-    -DPython_EXECUTABLE=${Python_EXECUTABLE} \
-    -DBUILD_MISSING_FMT=OFF \
-    -DINTERNALIZE_FMT=OFF \
-    ..
+cmake_args=(
+    -G Ninja
+    ${CMAKE_ARGS}
+    -DUSE_FFMPEG=ON
+    -DOIIO_BUILD_TOOLS=OFF
+    -DOIIO_BUILD_TESTS=OFF
+    -DUSE_OPENCV=OFF
+    -DCMAKE_BUILD_TYPE=Release
+    -DBUILD_MISSING_FMT=OFF
+    -DINTERNALIZE_FMT=OFF
+)
 
-# Do not install, only build.
+if [[ "${OIIO_BUILD_PYTHON}" == "1" ]]; then
+    cmake_args+=(
+        -DUSE_PYTHON=ON
+        -DPYTHON_VERSION=${PY_VER}
+        -DPython_EXECUTABLE=${Python_EXECUTABLE}
+    )
+else
+    cmake_args+=(-DUSE_PYTHON=OFF)
+fi
+
+cmake "${cmake_args[@]}" ..
+
 cmake --build . --config Release
+cmake --install . --prefix=$PREFIX
+
+# remove folders that should not be needed at runtime by conda-forge packages.
+rm -rf $PREFIX/share/doc/OpenImageIO
 
 popd
