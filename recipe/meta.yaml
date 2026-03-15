@@ -83,7 +83,6 @@ outputs:
         - test -f ${PREFIX}/include/OpenImageIO/oiioversion.h  # [unix]
         - test -f ${PREFIX}/lib/libOpenImageIO${SHLIB_EXT}  # [unix]
 
-        - if not exist %LIBRARY_PREFIX%\include\OpenImageIO exit 1  # [win]
         - if not exist %LIBRARY_PREFIX%\include\OpenImageIO\oiioversion.h exit 1  # [win]
         - if not exist %LIBRARY_PREFIX%\lib\OpenImageIO.lib exit 1  # [win]
         - if not exist %LIBRARY_PREFIX%\bin\OpenImageIO.dll exit 1  # [win]
