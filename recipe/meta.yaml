@@ -9,8 +9,7 @@ source:
   sha256: f57481435cec18633d3eba9b2e8c483fc1df6f0a01c5c9f98cbae6d1c52928e5
 
 build:
-  number: 10
-  skip: true  # [win]
+  number: 11
 
 requirements:
   build:
@@ -82,8 +81,12 @@ outputs:
       commands:
         - test -d ${PREFIX}/include/OpenImageIO  # [unix]
         - test -f ${PREFIX}/include/OpenImageIO/oiioversion.h  # [unix]
-        - test -f ${PREFIX}/lib/libOpenImageIO.so  # [linux]
-        - test -f ${PREFIX}/lib/libOpenImageIO.dylib  # [osx]
+        - test -f ${PREFIX}/lib/libOpenImageIO${SHLIB_EXT}  # [unix]
+
+        - if not exist %LIBRARY_PREFIX%\include\OpenImageIO exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\include\OpenImageIO\oiioversion.h exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\lib\OpenImageIO.lib exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\bin\OpenImageIO.dll exit 1  # [win]
 
   - name: py-openimageio
     script: install_python.sh
