@@ -18,7 +18,7 @@ cmake -G "Ninja" ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DPYTHON_VERSION=%PY_VER% ^
     -DPython_EXECUTABLE=%PYTHON% ^
-    -DPYTHON_SITE_DIR="%LIBRARY_PREFIX%\site-packages" ^
+    -DPYTHON_SITE_DIR="%LIBRARY_PREFIX%\site-packages\OpenImageIO" ^
     -DBUILD_MISSING_FMT=OFF ^
     -DINTERNALIZE_FMT=OFF ^
     ..
