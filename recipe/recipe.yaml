@@ -55,7 +55,7 @@ outputs:
       script:
         env:
           OIIO_BUILD_PYTHON: "0"
-        file: bash "${RECIPE_DIR}/build.sh"
+        file: build
     tests:
       - package_contents:
           include:
@@ -132,7 +132,7 @@ outputs:
       script:
         env:
           OIIO_BUILD_PYTHON: "1"
-        file: bash "${RECIPE_DIR}/build.sh"
+        file: build
     tests:
       - python:
           imports:
