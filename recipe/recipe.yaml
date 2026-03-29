@@ -14,8 +14,6 @@ source:
 
 build:
   number: ${{ build_number }}
-  skip:
-    - win
 
 outputs:
   - package:
@@ -64,10 +62,16 @@ outputs:
             - OpenImageIO
             - OpenImageIO_Util
           files:
-            - lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
-            - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
-            - lib/pkgconfig/OpenImageIO.pc
-            - share/fonts/OpenImageIO/DroidSans.ttf
+            - if: not win
+              then:
+                - lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
+                - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
+                - lib/pkgconfig/OpenImageIO.pc
+                - share/fonts/OpenImageIO/DroidSans.ttf
+            - if: win
+              then:
+                - Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
+                - Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
 
   - package:
       name: py-openimageio
