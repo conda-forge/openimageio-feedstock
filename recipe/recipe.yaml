@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   version: "2.5.18.0"
-  build_number: 11
+  build_number: 12
 
 recipe:
   name: openimageio-split
@@ -108,6 +108,9 @@ outputs:
         - tbb-devel
         - tsl_robin_map
         - zlib
+      
+      # The build script rebuilds the library (so same host deps need to be present),
+      # but the python bits don't need them (and we run-depend on openimageio here)
       ignore_run_exports:
         by_name:
           - ffmpeg
