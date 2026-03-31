@@ -1,9 +1,19 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '11.0'
+c_compiler:
+- clang
+c_compiler_version:
+- '19'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
+cxx_compiler:
+- clangxx
+cxx_compiler_version:
+- '19'
 ffmpeg:
 - '7'
 fmt:
@@ -28,6 +38,8 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
+macos_machine:
+- arm64-apple-darwin20.0.0
 numpy:
 - '2'
 openexr:
@@ -39,10 +51,17 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
+- 3.10.* *_cpython
+- 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.13.* *_cp313
 - 3.14.* *_cp314
 target_platform:
-- linux-ppc64le
+- osx-arm64
 tbb_devel:
 - '2022'
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1'
