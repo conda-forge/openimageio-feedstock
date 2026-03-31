@@ -1,7 +1,7 @@
-c_stdlib:
-- sysroot
-c_stdlib_version:
-- '2.17'
+c_compiler:
+- gcc
+c_compiler_version:
+- '14'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -47,10 +47,17 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
+- 3.10.* *_cpython
 - 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.13.* *_cp313
+- 3.14.* *_cp314
 target_platform:
-- linux-aarch64
+- linux-ppc64le
 tbb_devel:
 - '2022'
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1'
