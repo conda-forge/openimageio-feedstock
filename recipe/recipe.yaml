@@ -1,8 +1,8 @@
 schema_version: 1
 
 context:
-  version: "2.5.18.0"
-  build_number: 12
+  version: "3.1.12.0"
+  build_number: 0
 
 recipe:
   name: openimageio-split
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: f57481435cec18633d3eba9b2e8c483fc1df6f0a01c5c9f98cbae6d1c52928e5
+  sha256: 24aa5a7af5c7a98887a8f495e18079d82ef73913370e906fa5d73016d37964c7
 
 build:
   number: ${{ build_number }}
@@ -68,11 +68,9 @@ outputs:
                 - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
                 - lib/pkgconfig/OpenImageIO.pc
                 - share/fonts/OpenImageIO/DroidSans.ttf
-            - if: win
-              then:
+              else:
                 - Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
                 - Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
-
   - package:
       name: py-openimageio
     requirements:
@@ -108,7 +106,7 @@ outputs:
         - tbb-devel
         - tsl_robin_map
         - zlib
-      
+
       # The build script rebuilds the library (so same host deps need to be present),
       # but the python bits don't need them (and we run-depend on openimageio here)
       ignore_run_exports:
