@@ -62,18 +62,18 @@ cmake_args=(
     -DENABLE_libuhdr=OFF
     -DUSE_FFMPEG=ON
     -DENABLE_OpenCV=OFF
-    -DENABLE_OpenVDB=ON
+    -DENABLE_OpenVDB=OFF
     -DENABLE_Ptex=OFF
     -DENABLE_DCMTK=ON
     -DUSE_R3DSDK=OFF
 )
 
 # The following advanced integrations are currently enabled:
-#   - OpenVDB support.
 #   - DICOM support via DCMTK.
 #
 # The following integrations remain intentionally off until their packaging are ready:
 #   - OpenCV bridge.
+#   - OpenVDB support.
 #   - Ptex support.
 #   - Ultra HDR via libuhdr.
 #   - RED R3D SDK support.
