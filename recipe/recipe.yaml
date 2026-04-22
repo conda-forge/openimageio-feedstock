@@ -56,14 +56,20 @@ outputs:
       - package_contents:
           include:
             - OpenColorIO/OpenColorIO.h
-          lib:
-            - OpenColorIO
           files:
             - if: not win
               then:
+                - if: linux
+                  then:
+                    - lib/libOpenColorIO.so*
+                - if: osx
+                  then:
+                    - lib/libOpenColorIO*.dylib
                 - lib/cmake/OpenColorIO/OpenColorIOConfig.cmake
             - if: win
               then:
+                - Library/bin/OpenColorIO_2_5.dll
+                - Library/lib/OpenColorIO.lib
                 - Library/lib/cmake/OpenColorIO/OpenColorIOConfig.cmake
     about:
       homepage: https://opencolorio.org/
@@ -193,18 +199,27 @@ outputs:
       - package_contents:
           include:
             - OpenImageIO/oiioversion.h
-          lib:
-            - OpenImageIO
-            - OpenImageIO_Util
           files:
             - if: not win
               then:
+                - if: linux
+                  then:
+                    - lib/libOpenImageIO.so*
+                    - lib/libOpenImageIO_Util.so*
+                - if: osx
+                  then:
+                    - lib/libOpenImageIO*.dylib
+                    - lib/libOpenImageIO_Util*.dylib
                 - lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
                 - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
                 - lib/pkgconfig/OpenImageIO.pc
                 - share/fonts/OpenImageIO/DroidSans.ttf
             - if: win
               then:
+                - Library/bin/OpenImageIO.dll
+                - Library/bin/OpenImageIO_Util.dll
+                - Library/lib/OpenImageIO.lib
+                - Library/lib/OpenImageIO_Util.lib
                 - Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
                 - Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
 
@@ -462,6 +477,7 @@ outputs:
               - _h ociobakelut --help
               - _h ociocheck --help
               - ociochecklut /tmp/ocio_identity.spi1d 0.5 0.5 0.5
+              - if not exist %LIBRARY_BIN%\ociocpuinfo.exe exit 1
               - ociocpuinfo
               - _h ociomakeclf --help
               - _h ociomergeconfigs --help

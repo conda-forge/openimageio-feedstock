@@ -17,7 +17,7 @@ if /I "%OCIO_BUILD_PYTHON%"=="ON" (
     type nul > "%BUILD_DIR%\_sphinx_stubs\testresources\__init__.py"
     type nul > "%BUILD_DIR%\_sphinx_stubs\sphinx_tabs\__init__.py"
     set "PYTHONPATH=%BUILD_DIR%\_sphinx_stubs;%PYTHONPATH%"
-    set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=ON -DPython_EXECUTABLE=%PYTHON% -DPython3_EXECUTABLE=%PYTHON%"
+    set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=ON -DOCIO_PYTHON_VERSION=%PY_VER% -DPython_EXECUTABLE=%PYTHON% -DPython3_EXECUTABLE=%PYTHON%"
 ) else (
     set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=OFF"
 )
