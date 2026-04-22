@@ -9,6 +9,13 @@ OCIO_BUILD_APPS="${OCIO_BUILD_APPS:-OFF}"
 OCIO_BUILD_PYTHON="${OCIO_BUILD_PYTHON:-OFF}"
 OCIO_USE_OIIO_FOR_APPS="${OCIO_USE_OIIO_FOR_APPS:-OFF}"
 
+if [[ "${target_platform}" != "${build_platform}" ]]; then
+    # Cross builds need a runnable build-platform interpreter during CMake configure.
+    python_executable="${BUILD_PREFIX}/bin/python"
+else
+    python_executable="${PYTHON:-}"
+fi
+
 mkdir -p build_ocio
 pushd build_ocio
 
@@ -80,11 +87,12 @@ fi
 if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
     cmake_args+=(
         -DOCIO_BUILD_DOCS=ON
+        -DOCIO_PYTHON_VERSION="${PY_VER}"
         # Force CMake to use the host-prefix Python for all Python checks.
         # In conda/rattler builds, CMake runs from the build prefix and may
         # otherwise auto-select a different Python than the one being built.
-        -DPython_EXECUTABLE="${PYTHON}"
-        -DPython3_EXECUTABLE="${PYTHON}"
+        -DPython_EXECUTABLE="${python_executable}"
+        -DPython3_EXECUTABLE="${python_executable}"
     )
     mkdir -p _sphinx_stubs/sphinx_press_theme _sphinx_stubs/testresources _sphinx_stubs/sphinx_tabs
     # Stubs go first so they shadow any installed-but-broken packages.
