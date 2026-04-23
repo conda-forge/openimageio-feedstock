@@ -19,10 +19,6 @@ fi
 mkdir -p build_ocio
 pushd build_ocio
 
-if [[ "${target_platform}" == osx-* ]]; then
-    export CXXFLAGS="${CXXFLAGS:-} -D_LIBCPP_DISABLE_AVAILABILITY"
-fi
-
 cmake_args=(
     -GNinja
     -DCMAKE_INSTALL_PREFIX="${PREFIX}"
@@ -49,6 +45,15 @@ cmake_args=(
     # ==> All dependencies come from conda; never download at build time.
     -DOCIO_INSTALL_EXT_PACKAGES=NONE
 )
+
+if [[ "${target_platform}" == osx-* ]]; then
+    export CXXFLAGS="${CXXFLAGS:-} -D_LIBCPP_DISABLE_AVAILABILITY"
+    # OCIO's Apple hidden-link logic keys off minizip_LIBRARY for compat-mode builds.
+    # conda-forge's minizip package currently ships libminizip without the compat
+    # marker OCIO expects, so provide the library path explicitly until the
+    # minizip feedstock exports that metadata itself.
+    cmake_args+=( -Dminizip_LIBRARY="${PREFIX}/lib/libminizip.dylib" )
+fi
 
 # SIMD: explicitly enable per-architecture instruction sets.
 # OCIO uses runtime dispatch (CPUInfo), so higher instruction sets are
@@ -80,10 +85,6 @@ fi
 # OCIO_BUILD_DOCS=ON enables Doxygen-based docstring extraction for Python bindings.
 # Building PyOpenColorIO with docs disabled produces incomplete Python docstrings.
 #
-# docs/CMakeLists.txt checks for sphinx-press-theme and testresources at configure
-# time via find_python_package(REQUIRED), but neither is on conda-forge and neither
-# is actually used by the install targets we build. Stub both packages so CMake
-# configure passes; the stubs are never imported.
 if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
     cmake_args+=(
         -DOCIO_BUILD_DOCS=ON
@@ -92,14 +93,7 @@ if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
         # In conda/rattler builds, CMake runs from the build prefix and may
         # otherwise auto-select a different Python than the one being built.
         -DPython_EXECUTABLE="${python_executable}"
-        -DPython3_EXECUTABLE="${python_executable}"
     )
-    mkdir -p _sphinx_stubs/sphinx_press_theme _sphinx_stubs/testresources _sphinx_stubs/sphinx_tabs
-    # Stubs go first so they shadow any installed-but-broken packages.
-    touch _sphinx_stubs/sphinx_press_theme/__init__.py \
-          _sphinx_stubs/testresources/__init__.py \
-          _sphinx_stubs/sphinx_tabs/__init__.py
-    export PYTHONPATH="$(pwd)/_sphinx_stubs${PYTHONPATH:+:${PYTHONPATH}}"
 else
     cmake_args+=(-DOCIO_BUILD_DOCS=OFF)
 fi

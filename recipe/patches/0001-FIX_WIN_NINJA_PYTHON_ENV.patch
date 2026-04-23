@@ -1,0 +1,39 @@
+From 01f1380829303fe4c8cd88f6634ebf86653d705f Mon Sep 17 00:00:00 2001
+From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
+Date: Thu, 23 Apr 2026 11:26:08 +0200
+Subject: [PATCH 1/2] FIX WINDOWS PYTHON PRECOMMANDS FOR NINJA BUILDS
+
+Avoid multiline cmd.exe precommands in generated Ninja rules.
+
+Resolve PATH/PYTHONPATH to configure-time environment values and run Python commands via cmake -E env so Windows Ninja builds can parse the generated command line correctly.
+---
+ share/cmake/macros/GetPythonPreCommand.cmake | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/share/cmake/macros/GetPythonPreCommand.cmake b/share/cmake/macros/GetPythonPreCommand.cmake
+index 22b39f33..45a7f94d 100644
+--- a/share/cmake/macros/GetPythonPreCommand.cmake
++++ b/share/cmake/macros/GetPythonPreCommand.cmake
+@@ -56,17 +56,15 @@ macro(get_python_pre_command)
+         # expansion. That results in an empty path in the ENV variable and
+         # Python 3.11+ fails to convert that to absolute path. Possibly due to
+         # https://www.cve.news/cve-2023-41105/
+-        list(APPEND _WIN_PATHS "%%PYTHONPATH%%")
++        list(APPEND _WIN_PATHS $ENV{PYTHONPATH})
+ 
+         string(JOIN "\\\\;" _PYTHONPATH_VALUE ${_WIN_PATHS})
+         string(CONCAT _PYTHONPATH_SET "PYTHONPATH=${_PYTHONPATH_VALUE}")
+ 
+-        # Mimic *nix:
+-        #   '> PYTHONPATH=XXX CMD'
+-        # on Windows with:
+-        #   '> set PYTHONPATH=XXX \n call CMD'
+-        # '\n' is here because '\\&' does not work.
+-        set(Python_PRE_CMD set ${_PATH_SET} "\n" set ${_PYTHONPATH_SET} "\n" call)
++        string(REPLACE "%PATH%" "$ENV{PATH}" _PATH_SET "${_PATH_SET}")
++        string(REPLACE ";" "\\;" _PATH_SET "${_PATH_SET}")
++        # Avoid multiline cmd.exe 'set' precommands, which break Ninja parsing.
++        set(Python_PRE_CMD ${CMAKE_COMMAND} -E env ${_PATH_SET} ${_PYTHONPATH_SET})
+ 
+     else()
+         # Build path list

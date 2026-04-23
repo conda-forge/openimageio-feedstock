@@ -10,14 +10,7 @@ set "BUILD_DIR=%SRC_DIR%\build_ocio"
 if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
 
 if /I "%OCIO_BUILD_PYTHON%"=="ON" (
-    if not exist "%BUILD_DIR%\_sphinx_stubs\sphinx_press_theme" mkdir "%BUILD_DIR%\_sphinx_stubs\sphinx_press_theme"
-    if not exist "%BUILD_DIR%\_sphinx_stubs\testresources" mkdir "%BUILD_DIR%\_sphinx_stubs\testresources"
-    if not exist "%BUILD_DIR%\_sphinx_stubs\sphinx_tabs" mkdir "%BUILD_DIR%\_sphinx_stubs\sphinx_tabs"
-    type nul > "%BUILD_DIR%\_sphinx_stubs\sphinx_press_theme\__init__.py"
-    type nul > "%BUILD_DIR%\_sphinx_stubs\testresources\__init__.py"
-    type nul > "%BUILD_DIR%\_sphinx_stubs\sphinx_tabs\__init__.py"
-    set "PYTHONPATH=%BUILD_DIR%\_sphinx_stubs;%PYTHONPATH%"
-    set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=ON -DOCIO_PYTHON_VERSION=%PY_VER% -DPython_EXECUTABLE=%PYTHON% -DPython3_EXECUTABLE=%PYTHON%"
+    set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=ON -DOCIO_PYTHON_VERSION=%PY_VER% -DPython_EXECUTABLE=%PYTHON%"
 ) else (
     set "OCIO_DOC_ARGS=-DOCIO_BUILD_DOCS=OFF"
 )

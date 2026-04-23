@@ -16,6 +16,9 @@ source:
   - url: https://github.com/AcademySoftwareFoundation/OpenColorIO/releases/download/v${{ ocio_version }}/OpenColorIO-${{ ocio_version }}.tar.gz
     sha256: 49ab04d023d7a7a7237e24f2cfead3171b0ff7f466ce20e6e32859ec8c7cc94b
     target_directory: ocio_src
+    patches:
+      - patches/0001-FIX_WIN_NINJA_PYTHON_ENV.patch
+      - patches/0002-CF_SKIP_UNUSED_DOC_DEPS.patch
 
 build:
   number: ${{ build_number }}
@@ -50,6 +53,9 @@ outputs:
         - imath >=3.1.1
         - pystring >=1.1.3
         - expat >=2.6.0
+      ignore_run_exports:
+        from_package:
+          - zlib
       run:
         - pystring >=1.1.3
     tests:
@@ -468,16 +474,14 @@ outputs:
       - script:
           - if: not win
             then:
-              # _h: allow exit codes 0 or 1 (OCIO --help exits 1); fail on >=2 (crash/not-found).
-              # Suppress normal help text to keep test logs readable; print output only on real failure.
-              - '_h() { _r=0; _out="$("$@" 2>&1)" || _r=$?; [ "$_r" -le 1 ] || { printf "%s\n" "$_out"; return 1; }; }'
+              # OCIO --help commonly exits 1; only treat >=2 as failure.
+              - '_h() { "$@" >/dev/null 2>&1 || [ $? -eq 1 ]; }'
               # Minimal valid 1D LUT used by CLI smoke tests.
               - 'printf ''Version 1\nFrom 0 1\nLength 2\nComponents 1\n{\n0.0\n1.0\n}\n'' > /tmp/ocio_identity.spi1d'
               - _h ocioarchive --help
               - _h ociobakelut --help
               - _h ociocheck --help
               - ociochecklut /tmp/ocio_identity.spi1d 0.5 0.5 0.5
-              - if not exist %LIBRARY_BIN%\ociocpuinfo.exe exit 1
               - ociocpuinfo
               - _h ociomakeclf --help
               - _h ociomergeconfigs --help
@@ -491,20 +495,15 @@ outputs:
               # ociochecklut --gpu exits 1 in two cases:
               #   (a) "Compiled without OpenGL support" -> bad build, fail
               #   (b) EGL init failure in headless CI     -> runtime env, allowed
-              - |-
-                  if [[ "${target_platform:-}" == linux-* ]]; then
-                    output="$(ociochecklut --gpu /tmp/ocio_identity.spi1d 0.5 0.5 0.5 2>&1 || true)"
-                    echo "$output"
-                    if grep -Fq "Compiled without OpenGL support" <<<"$output"; then
-                      echo "ERROR: OpenColorIO tools were built without OpenGL support."
-                      exit 1
-                    fi
-                  fi
+              - 'case "${target_platform:-}" in linux-*) ociochecklut --gpu /tmp/ocio_identity.spi1d 0.5 0.5 0.5 >/tmp/ocio_gpu_check.txt 2>&1 || true ;; esac'
+              - 'case "${target_platform:-}" in linux-*) cat /tmp/ocio_gpu_check.txt ;; esac'
+              - 'case "${target_platform:-}" in linux-*) ! grep -Fq "Compiled without OpenGL support" /tmp/ocio_gpu_check.txt ;; esac'
             else:
               - if not exist %LIBRARY_BIN%\\ocioarchive.exe exit 1
               - if not exist %LIBRARY_BIN%\\ociobakelut.exe exit 1
               - if not exist %LIBRARY_BIN%\\ociocheck.exe exit 1
               - if not exist %LIBRARY_BIN%\\ociochecklut.exe exit 1
+              - if not exist %LIBRARY_BIN%\\ociocpuinfo.exe exit 1
               - if not exist %LIBRARY_BIN%\\ociomakeclf.exe exit 1
               - if not exist %LIBRARY_BIN%\\ociomergeconfigs.exe exit 1
               - if not exist %LIBRARY_BIN%\\ocioperf.exe exit 1
