@@ -9,12 +9,7 @@ OCIO_BUILD_APPS="${OCIO_BUILD_APPS:-OFF}"
 OCIO_BUILD_PYTHON="${OCIO_BUILD_PYTHON:-OFF}"
 OCIO_USE_OIIO_FOR_APPS="${OCIO_USE_OIIO_FOR_APPS:-OFF}"
 
-if [[ "${target_platform}" != "${build_platform}" ]]; then
-    # Cross builds need a runnable build-platform interpreter during CMake configure.
-    python_executable="${BUILD_PREFIX}/bin/python"
-else
-    python_executable="${PYTHON:-}"
-fi
+python_executable="${PYTHON:-}"
 
 mkdir -p build_ocio
 pushd build_ocio
@@ -89,9 +84,8 @@ if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
     cmake_args+=(
         -DOCIO_BUILD_DOCS=ON
         -DOCIO_PYTHON_VERSION="${PY_VER}"
-        # Force CMake to use the host-prefix Python for all Python checks.
-        # In conda/rattler builds, CMake runs from the build prefix and may
-        # otherwise auto-select a different Python than the one being built.
+        # Use conda-forge's active Python. For cross builds, cross-python sets
+        # this to a build-platform wrapper with target-platform Python metadata.
         -DPython_EXECUTABLE="${python_executable}"
     )
 else

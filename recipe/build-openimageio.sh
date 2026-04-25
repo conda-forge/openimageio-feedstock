@@ -18,12 +18,7 @@ if [[ "${target_platform}" == "linux-aarch64" ]]; then
     export CXXFLAGS="${CXXFLAGS} -flax-vector-conversions"
 fi
 
-if [[ "${target_platform}" != "${build_platform}" ]]; then
-    # Cross builds need the build-platform interpreter for a stable extension suffix.
-    python_executable="${BUILD_PREFIX}/bin/python"
-else
-    python_executable="${PYTHON:-}"
-fi
+python_executable="${PYTHON:-}"
 
 build_dir="${SRC_DIR}/build-${output_kind}"
 
