@@ -511,17 +511,10 @@ outputs:
               - if not exist %LIBRARY_BIN%\\ociowrite.exe exit 1
               - if not exist %LIBRARY_BIN%\\ocioconvert.exe exit 1
               - ociocpuinfo
-              - echo Version 1> %TEMP%\ocio_identity.spi1d
-              - echo From 0 1>> %TEMP%\ocio_identity.spi1d
-              - echo Length 2>> %TEMP%\ocio_identity.spi1d
-              - echo Components 1>> %TEMP%\ocio_identity.spi1d
-              - echo {>> %TEMP%\ocio_identity.spi1d
-              - echo 0.0>> %TEMP%\ocio_identity.spi1d
-              - echo 1.0>> %TEMP%\ocio_identity.spi1d
-              - echo }>> %TEMP%\ocio_identity.spi1d
-              - ociochecklut %TEMP%\ocio_identity.spi1d 0.5 0.5 0.5
-              - ociolutimage --generate --output %TEMP%\ocio_lutimage.exr
-              - if not exist %TEMP%\ocio_lutimage.exr exit 1
+              - (echo Version 1& echo From 0 1& echo Length 2& echo Components 1& echo {& echo 0.0& echo 1.0& echo }) > "%TEMP%\ocio_identity.spi1d"
+              - ociochecklut "%TEMP%\ocio_identity.spi1d" 0.5 0.5 0.5
+              - ociolutimage --generate --output "%TEMP%\ocio_lutimage.exr"
+              - if not exist "%TEMP%\ocio_lutimage.exr" exit 1
               - if not exist %LIBRARY_BIN%\\ociodisplay.exe exit 1
     about:
       homepage: https://opencolorio.org/
