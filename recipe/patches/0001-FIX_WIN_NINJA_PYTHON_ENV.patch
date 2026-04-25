@@ -7,14 +7,14 @@ Avoid multiline cmd.exe precommands in generated Ninja rules.
 
 Resolve PATH/PYTHONPATH to configure-time environment values and run Python commands via cmake -E env so Windows Ninja builds can parse the generated command line correctly.
 ---
- share/cmake/macros/GetPythonPreCommand.cmake | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ share/cmake/macros/GetPythonPreCommand.cmake | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/share/cmake/macros/GetPythonPreCommand.cmake b/share/cmake/macros/GetPythonPreCommand.cmake
-index 22b39f33..45a7f94d 100644
+index 22b39f33..0f2bff28 100644
 --- a/share/cmake/macros/GetPythonPreCommand.cmake
 +++ b/share/cmake/macros/GetPythonPreCommand.cmake
-@@ -56,17 +56,15 @@ macro(get_python_pre_command)
+@@ -56,17 +56,16 @@ macro(get_python_pre_command)
          # expansion. That results in an empty path in the ENV variable and
          # Python 3.11+ fails to convert that to absolute path. Possibly due to
          # https://www.cve.news/cve-2023-41105/
@@ -32,8 +32,9 @@ index 22b39f33..45a7f94d 100644
 -        set(Python_PRE_CMD set ${_PATH_SET} "\n" set ${_PYTHONPATH_SET} "\n" call)
 +        string(REPLACE "%PATH%" "$ENV{PATH}" _PATH_SET "${_PATH_SET}")
 +        string(REPLACE ";" "\\;" _PATH_SET "${_PATH_SET}")
++        string(REPLACE ";" "\\;" _PYTHONPATH_SET "${_PYTHONPATH_SET}")
 +        # Avoid multiline cmd.exe 'set' precommands, which break Ninja parsing.
-+        set(Python_PRE_CMD ${CMAKE_COMMAND} -E env ${_PATH_SET} ${_PYTHONPATH_SET})
++        set(Python_PRE_CMD ${CMAKE_COMMAND} -E env ${_PATH_SET} ${_PYTHONPATH_SET} --)
  
      else()
          # Build path list
