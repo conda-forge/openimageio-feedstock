@@ -1,11 +1,13 @@
-From 27996354573a1a75c3d459d02f49ab736ce29fe1 Mon Sep 17 00:00:00 2001
+From 3908b6be4cb7b2ead0b480d4a4e8cb169a8b1f9b Mon Sep 17 00:00:00 2001
 From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
-Date: Thu, 23 Apr 2026 11:26:08 +0200
-Subject: [PATCH 2/2] CF PACKAGING SKIP FULL HTML DOC EXTRAS FOR PYOPENCOLORIO
+Date: Sat, 25 Apr 2026 12:54:10 +0200
+Subject: [PATCH] CF PACKAGING SKIP FULL HTML DOC EXTRAS FOR PYOPENCOLORIO
 
 Drop the docs-time checks for testresources, sphinx-press-theme, and sphinx-tabs in packaging builds.
 
 These packages are used by the full HTML docs configuration, but they are not needed for the PyOpenColorIO docstring extraction path used by conda-forge packaging.
+
+Reference: N/A (packaging-only patch)
 ---
  docs/CMakeLists.txt | 12 ------------
  1 file changed, 12 deletions(-)

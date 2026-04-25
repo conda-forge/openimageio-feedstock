@@ -1,0 +1,27 @@
+From 7dec3b5d1fc9b2fa9f2fe5035f970874be5c5f00 Mon Sep 17 00:00:00 2001
+From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 12:54:19 +0200
+Subject: [PATCH] FIX WINDOWS DOCSTRING EXTRACTION COMMAND
+
+Run the PyOpenColorIO docstring extractor directly instead of through the Windows Python precommand wrapper.
+
+The extractor only needs Python, six, and the Doxygen XML working directory. Avoiding the long PATH/PYTHONPATH wrapper keeps Ninja's generated batch command reliable while preserving generated docstrings.
+
+Reference: N/A (no upstream PR yet)
+---
+ src/bindings/python/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/bindings/python/CMakeLists.txt b/src/bindings/python/CMakeLists.txt
+index b3a34363..54addd85 100644
+--- a/src/bindings/python/CMakeLists.txt
++++ b/src/bindings/python/CMakeLists.txt
+@@ -22,7 +22,7 @@ if(OCIO_BUILD_DOCS)
+ 	# Run docstring extraction if docstrings.h is behind doxygen XML
+ 	add_custom_command(OUTPUT ${PYOCIO_DOCSTRINGS_H}
+ 		COMMAND
+-			${Python_PRE_CMD} "${Python_EXECUTABLE}" "${EXTRACT_DOCSTRINGS_PY}" xml docstrings.h
++			"${Python_EXECUTABLE}" "${EXTRACT_DOCSTRINGS_PY}" xml docstrings.h
+ 		WORKING_DIRECTORY
+ 			${PYOCIO_DOCSTRINGS_DIR}
+ 		DEPENDS

@@ -19,6 +19,7 @@ source:
     patches:
       - patches/0001-FIX_WIN_NINJA_PYTHON_ENV.patch
       - patches/0002-CF_SKIP_UNUSED_DOC_DEPS.patch
+      - patches/0003-FIX_WIN_DOCSTRING_COMMANDS.patch
 
 build:
   number: ${{ build_number }}
