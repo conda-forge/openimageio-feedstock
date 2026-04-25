@@ -81,12 +81,14 @@ fi
 # Building PyOpenColorIO with docs disabled produces incomplete Python docstrings.
 #
 if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
+    python_include_dir="$("${python_executable}" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
     cmake_args+=(
         -DOCIO_BUILD_DOCS=ON
         -DOCIO_PYTHON_VERSION="${PY_VER}"
         # Use conda-forge's active Python. For cross builds, cross-python sets
         # this to a build-platform wrapper with target-platform Python metadata.
         -DPython_EXECUTABLE="${python_executable}"
+        -DPython_INCLUDE_DIR="${python_include_dir}"
     )
 else
     cmake_args+=(-DOCIO_BUILD_DOCS=OFF)

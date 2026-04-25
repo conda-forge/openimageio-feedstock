@@ -105,6 +105,7 @@ case "${output_kind}" in
         )
         ;;
     python)
+        python_include_dir="$("${python_executable}" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
         cmake_args+=(
             -DOIIO_BUILD_TOOLS=OFF
             -DINSTALL_FONTS=OFF
@@ -118,7 +119,9 @@ case "${output_kind}" in
         if [[ -n "${python_executable}" ]]; then
             cmake_args+=(
                 -DPython_EXECUTABLE="${python_executable}"
+                -DPython_INCLUDE_DIR="${python_include_dir}"
                 -DPython3_EXECUTABLE="${python_executable}"
+                -DPython3_INCLUDE_DIR="${python_include_dir}"
             )
         fi
         ;;
