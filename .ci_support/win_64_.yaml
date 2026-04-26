@@ -17,7 +17,7 @@ giflib:
 imath:
 - 3.2.2
 libboost_devel:
-- '1.88'
+- '1.90'
 libheif:
 - '1.19'
 libjpeg_turbo:
