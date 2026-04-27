@@ -228,7 +228,6 @@ outputs:
                 - Library/lib/OpenImageIO_Util.lib
                 - Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
                 - Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
-
   - package:
       name: py-openimageio
     build:
