@@ -277,6 +277,7 @@ outputs:
             - Library/bin/OpenImageIO*.dll
             - Library/lib/OpenImageIO*.lib
             - Library/lib/cmake/OpenImageIO/**
+            - Library/share/fonts/OpenImageIO/**
           else:
             - include/OpenImageIO/**
             - lib/libOpenImageIO*
@@ -300,6 +301,7 @@ outputs:
               then:
                 - Library/bin/OpenImageIO*.dll
                 - Library/lib/cmake/OpenImageIO/**
+                - Library/share/fonts/OpenImageIO/**
               else:
                 - lib/cmake/OpenImageIO/**
                 - lib/pkgconfig/OpenImageIO*.pc
