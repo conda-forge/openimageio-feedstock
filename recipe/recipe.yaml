@@ -1,36 +1,248 @@
 schema_version: 1
 
+# Notes:
+# This is a recipe using staging paradigm to build:
+# - libopencolorio: OCIO core library and headers 
+# - py-opencolorio: OCIO Python bindings
+# - libopenimageio: OIIO core library and headers
+# - py-openimageio: OIIO Python bindings
+# - openimageio-tools: OIIO command-line tools
+# - opencolorio-tools: OCIO command-line tools built with OIIO integration
+# - openimageio: OIIO library and command-line tools bundle
+# - opencolorio: OCIO library and command-line tools bundle
+
+# Build Strategy & Circular Dependency Breaking:
+# OCIO tools need OIIO for full image format support, but OIIO core needs OCIO.
+#
+# There are 3 main / heavy compilation stages:
+#
+#   1. opencolorio-build (Staging)
+#      Builds the core libopencolorio with Python and apps disabled. This breaks the
+#      circular dependency, allowing OIIO to safely link against this minimal OCIO base.
+#
+#   2. openimageio-build (Staging)
+#      Builds the core libopenimageio, linking against the staged libopencolorio.
+#      Apps and tools are disabled to keep this base build focused.
+#
+#   3. opencolorio-tools
+#      Rebuilds OCIO with apps and OIIO integration enabled. It can now link against
+#      the staged libopenimageio so CLI tools like `ocioconvert` feature full image support.
+
+# Other Outputs (py-opencolorio, py-openimageio, openimageio-tools, libopencolorio, libopenimageio):
+#   These outputs inherit from their staging builds. Since the heavy C++ core is already 
+#   compiled, they only execute the quicker/lighter compilation for their specific 
+#   targets (e.g., Python bindings or CLI tools). This keeps target-specific runtime dependencies
+#   (like Python) isolated from the core libraries and avoids most of the heavy recompilations.
+
+# Finally, there are also 2 metapackages (openimageio and opencolorio) that bundle the core 
+# libraries with their respective tools for easier installation and backward compatibility
+# with existing users of the feedstock.
+
 context:
-  version: "2.5.18.0"
-  build_number: 13
+  version: "3.1.12.0" # https://github.com/AcademySoftwareFoundation/OpenImageIO/releases
+  ocio_version: "2.5.1" # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
+  build_number: 0
 
 recipe:
   name: openimageio-split
   version: ${{ version }}
 
 source:
-  url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: f57481435cec18633d3eba9b2e8c483fc1df6f0a01c5c9f98cbae6d1c52928e5
+  - url: https://github.com/AcademySoftwareFoundation/OpenImageIO/releases/download/v${{ version }}/OpenImageIO-${{ version }}.tar.gz
+    sha256: 704511376faf32767cdcd9aa9a6d0be2b03b91f849ad9008227dc9f0e14bc265
+    target_directory: oiio_src
+    patches:
+      - patches/0004-AVOID_OIIO_CORE_REBUILD_FOR_PYTHON.patch
+  - url: https://github.com/AcademySoftwareFoundation/OpenColorIO/releases/download/v${{ ocio_version }}/OpenColorIO-${{ ocio_version }}.tar.gz
+    sha256: 49ab04d023d7a7a7237e24f2cfead3171b0ff7f466ce20e6e32859ec8c7cc94b
+    target_directory: ocio_src
+    patches:
+      - patches/0001-FIX_WIN_NINJA_PYTHON_ENV.patch
+      - patches/0002-CF_SKIP_UNUSED_DOC_DEPS.patch
+      - patches/0003-FIX_WIN_DOCSTRING_COMMANDS.patch
 
 build:
   number: ${{ build_number }}
 
 outputs:
+  - staging:
+      name: opencolorio-build
+    build:
+      script:
+        env:
+          OCIO_BUILD_APPS: "OFF"
+          OCIO_BUILD_PYTHON: "OFF"
+          OCIO_USE_OIIO_FOR_APPS: "OFF"
+        file: build-opencolorio
+    requirements:
+      build:
+        - ${{ compiler("cxx") }}
+        - cmake
+        - ninja
+        - if: not win
+          then: make
+      host:
+        - yaml-cpp
+        - minizip
+        - zlib
+        - imath
+        - pystring
+        - expat
+      ignore_run_exports:
+        from_package:
+          # zlib is required at build/link time for minizip-ng, but OCIO has no
+          # direct runtime use of libzlib; minizip provides the runtime dependency.
+          - zlib
+
   - package:
-      name: openimageio
+      name: libopencolorio
+      version: ${{ ocio_version }}
+    inherit: opencolorio-build
+    build:
+      files:
+        - if: win
+          then:
+            - Library/include/OpenColorIO/**
+            - Library/bin/OpenColorIO*.dll
+            - Library/lib/OpenColorIO*.lib
+            - Library/lib/cmake/OpenColorIO/**
+            - Library/lib/pkgconfig/OpenColorIO*.pc
+          else:
+            - include/OpenColorIO/**
+            - lib/libOpenColorIO*
+            - lib/cmake/OpenColorIO/**
+            - lib/pkgconfig/OpenColorIO*.pc
+    requirements:
+      run_exports:
+        weak:
+          - ${{ pin_subpackage("libopencolorio", upper_bound="x.x") }}
+      run:
+        # TODO: remove when run export added to pystring feedstock
+        - pystring
+    tests:
+      - package_contents:
+          strict: true
+          include:
+            - OpenColorIO/**
+          lib:
+            - if: win
+              then: OpenColorIO.lib
+              else: OpenColorIO
+          bin:
+            - if: win
+              then: OpenColorIO_*.dll
+          files:
+            - if: win
+              then:
+                - Library/lib/cmake/OpenColorIO/**
+                - Library/lib/pkgconfig/OpenColorIO*.pc
+              else:
+                - lib/cmake/OpenColorIO/**
+                - lib/pkgconfig/OpenColorIO*.pc
+    about:
+      homepage: https://opencolorio.org/
+      summary: OpenColorIO core C++ library and headers
+      description: Color management library for motion picture production, visual effects, and animation pipelines.
+      license: BSD-3-Clause
+      license_file: ocio_src/LICENSE
+      repository: https://github.com/AcademySoftwareFoundation/OpenColorIO
+      documentation: https://opencolorio.readthedocs.io/
+
+  - package:
+      name: py-opencolorio
+      version: ${{ ocio_version }}
+    inherit:
+      from: opencolorio-build
+      run_exports: false
+    build:
+      string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ build_number }}
+      files:
+        - if: win
+          then:
+            - Lib/site-packages/PyOpenColorIO/**
+          else:
+            - lib/python*/site-packages/PyOpenColorIO/**
+      script:
+        env:
+          OCIO_BUILD_APPS: "OFF"
+          OCIO_BUILD_PYTHON: "ON"
+          OCIO_USE_OIIO_FOR_APPS: "OFF"
+        file: build-opencolorio
+    requirements:
+      build:
+        - ${{ compiler("cxx") }}
+        - cmake
+        - ninja
+        - if: not win
+          then: make
+        - doxygen
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+      host:
+        - python
+        - pybind11
+        - ${{ pin_subpackage("libopencolorio", exact=True) }}
+        # The runtime libraries pulled by libopencolorio do not include headers
+        # and are needed again to reconfigure the Python bindings build.
+        - expat
+        - zlib
+        - yaml-cpp
+        - pystring
+        - imath
+        - minizip
+        # OCIO_BUILD_DOCS=ON triggers doc building to populate Python docstrings.
+        - sphinx
+        - breathe
+        - recommonmark
+        - six
+      ignore_run_exports:
+        from_package:
+          # suppress run export of build-only dependencies that are needed to 
+          # reconfigure/build the Python bindings but not for runtime usage of the Python package;
+          - zlib
+      run_exports:
+        weak:
+          - ${{ pin_subpackage("py-opencolorio", upper_bound="x") }}
+    tests:
+      - package_contents:
+          strict: true
+          site_packages:
+            - PyOpenColorIO/**
+      - python:
+          imports:
+            - PyOpenColorIO
+          pip_check: true
+    about:
+      homepage: https://opencolorio.org/
+      summary: Python bindings for OpenColorIO
+      description: Python bindings for the OpenColorIO color management library.
+      license: BSD-3-Clause
+      license_file: ocio_src/LICENSE
+      repository: https://github.com/AcademySoftwareFoundation/OpenColorIO
+      documentation: https://opencolorio.readthedocs.io/
+
+  - staging:
+      name: openimageio-build
+    build:
+      script:
+        env:
+          OIIO_OUTPUT: core-staged
+        file: build-openimageio
     requirements:
       build:
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
         - ninja
+        - pkg-config
       host:
         - ffmpeg
         - fmt
         - freetype
         - giflib
         - imath
-        - libboost-devel
         - libheif
         - libjpeg-turbo
         - libpng
@@ -42,41 +254,97 @@ outputs:
         - tbb-devel
         - tsl_robin_map
         - zlib
+        # OIIO 3.x additions and enabled integrations.
+        - ${{ pin_subpackage("libopencolorio", exact=True) }}
+        - bzip2
+        - dcmtk
+        - libjxl
+        - openjph
+        # Optional integration currently disabled in build-openimageio.
+        # - libopencv
+        # - openvdb  # Disabled until openvdb-feedstock is split; see issue #41 there.
+        # Provides the unversioned libxml2.so linker symlink.
+        - libxml2-devel
       ignore_run_exports:
-        by_name:
+        from_package:
           - fmt
-      run_exports:
-        strong:
-          - ${{ pin_subpackage("openimageio", upper_bound="x.x") }}
+          - libxml2-devel
+
+  - package:
+      name: libopenimageio
+    inherit: openimageio-build
     build:
-      number: ${{ build_number }}
-      script:
-        env:
-          OIIO_BUILD_PYTHON: "0"
-        file: build
+      files:
+        - if: win
+          then:
+            - Library/include/OpenImageIO/**
+            - Library/bin/OpenImageIO*.dll
+            - Library/lib/OpenImageIO*.lib
+            - Library/lib/cmake/OpenImageIO/**
+            - Library/share/fonts/OpenImageIO/**
+          else:
+            - include/OpenImageIO/**
+            - lib/libOpenImageIO*
+            - lib/cmake/OpenImageIO/**
+            - lib/pkgconfig/OpenImageIO.pc
+            - share/fonts/OpenImageIO/**
+    requirements:
+      run_exports:
+        weak:
+          - ${{ pin_subpackage("libopenimageio", upper_bound="x.x") }}
     tests:
       - package_contents:
+          strict: true
           include:
-            - OpenImageIO/oiioversion.h
+            - OpenImageIO/**
           lib:
-            - OpenImageIO
-            - OpenImageIO_Util
-          files:
-            - if: not win
+            - if: win
               then:
-                - lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
-                - lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
-                - lib/pkgconfig/OpenImageIO.pc
-                - share/fonts/OpenImageIO/DroidSans.ttf
+                - OpenImageIO.lib
+                - OpenImageIO_Util.lib
               else:
-                - Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake
-                - Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake
+                - OpenImageIO
+                - OpenImageIO_Util
+          bin:
+            - if: win
+              then: OpenImageIO*.dll
+          files:
+            - if: win
+              then:
+                - Library/lib/cmake/OpenImageIO/**
+                - Library/share/fonts/OpenImageIO/**
+              else:
+                - lib/cmake/OpenImageIO/**
+                - lib/pkgconfig/OpenImageIO*.pc
+                - share/fonts/OpenImageIO/**
+    about:
+      summary: OpenImageIO core C++ libraries and headers
+      description: C++ libraries and headers for OpenImageIO image file I/O and image processing APIs.
+
   - package:
       name: py-openimageio
+    inherit:
+      from: openimageio-build
+      run_exports: false
+    build:
+      string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ build_number }}
+      files:
+        - if: win
+          then:
+            - Lib/site-packages/OpenImageIO/**
+          else:
+            - lib/python*/site-packages/OpenImageIO/**
+      script:
+        env:
+          OIIO_OUTPUT: python-staged
+        file: build-openimageio
     requirements:
       build:
         - if: build_platform != target_platform
           then:
+            # CMake executes Python during configuration to query PyBind11 and NumPy
+            # include paths. We need the "build-architecture versions" of these packages
+            # plus cross-python to prevent wrong-architecture ImportErrors.
             - python
             - cross-python_${{ target_platform }}
             - pybind11
@@ -85,85 +353,238 @@ outputs:
         - ${{ compiler("cxx") }}
         - cmake
         - ninja
+        - pkg-config
       host:
+        - ${{ pin_subpackage("libopenimageio", exact=True) }}
         - python
         - numpy
         - pybind11
-        - ffmpeg
-        - fmt
+        # The runtime libraries pulled by libopenimageio do not include headers.
+        # Those are needed again to reconfigure the Python bindings build.
         - freetype
-        - giflib
         - imath
-        - libboost-devel
-        - libheif
-        - libjpeg-turbo
-        - libpng
-        - libraw
-        - libtiff
-        - libwebp
         - openexr
-        - openjpeg
-        - tbb-devel
-        - tsl_robin_map
+        - libtiff
         - zlib
-
-      # The build script rebuilds the library (so same host deps need to be present),
-      # but the python bits don't need them (and we run-depend on openimageio here)
+        - fmt
+        - tsl_robin_map
+        - tbb-devel
+        - libxml2-devel
       ignore_run_exports:
-        by_name:
-          - ffmpeg
+        # Suppress run export of build-only dependencies that are needed toreconfigure/build
+        # the Python bindings but not for runtime usage of the Python package
+        from_package:
           - fmt
-          - freetype
-          - giflib
-          - imath
-          - libboost-devel
-          - libheif
-          - libjpeg-turbo
-          - libpng
-          - libraw
-          - libtiff
-          - libwebp
-          - numpy
-          - openexr
-          - openjpeg
-          - tbb-devel
-          - zlib
-      run:
-        - ${{ pin_subpackage("openimageio", exact=True) }}
-        - python
-    build:
-      number: ${{ build_number }}
-      string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ build_number }}
-      script:
-        env:
-          OIIO_BUILD_PYTHON: "1"
-        file: build
+          - libxml2-devel
+      run_exports:
+        weak:
+          - ${{ pin_subpackage("py-openimageio", upper_bound="x") }}
     tests:
+      - package_contents:
+          strict: true
+          site_packages:
+            - OpenImageIO/**
       - python:
           imports:
             - OpenImageIO
+    about:
+      summary: Python bindings for OpenImageIO
+      description: Python bindings for the OpenImageIO image file I/O and image processing APIs.
+
+  - package:
+      name: openimageio-tools
+    inherit:
+      from: openimageio-build
+      run_exports: false
+    build:
+      files:
+        include:
+          - if: win
+            then:
+              - Library/bin/*.exe
+            else:
+              - bin/*
+      script:
+        env:
+          OIIO_OUTPUT: tools-staged
+        file: build-openimageio
+    requirements:
+      # only runtime dependencies needed here as we copy the binaries from the staging build;
+      # no compilation occurs at this stage
+      run:
+        - ${{ pin_subpackage("libopenimageio", exact=True) }}
+    tests:
+      - package_contents:
+          strict: true
+          bin:
+            - iconvert
+            - idiff
+            - igrep
+            - iinfo
+            - maketx
+            - oiiotool
+      - script:
+          - iconvert --help
+          - idiff --help
+          - igrep --help
+          - iinfo --help
+          - maketx --help
+          - oiiotool --help
+    about:
+      summary: OpenImageIO command-line tools
+      description: Command-line tools for OpenImageIO image inspection, conversion, comparison, texture generation, and processing.
+
+  - package:
+      name: opencolorio-tools
+      version: ${{ ocio_version }}
+    inherit:
+      from: opencolorio-build
+      run_exports: false
+    build:
+      files:
+        include:
+          - if: win
+            then:
+              - Library/bin/*.exe
+            else:
+              - bin/*
+      script:
+        # Here we rebuild OCIO whole as the base OCIO staging build intentionally
+        # disables apps/OIIO integration so libopenimageio can first build
+        # against libopencolorio. 
+        # Here the tools are built after libopenimageio exists because ocioconvert,
+        # ociolutimage, and ociodisplay link to OIIO-backed image I/O for full format support.
+        env:
+          OCIO_BUILD_APPS: "ON"
+          OCIO_BUILD_PYTHON: "OFF"
+          OCIO_USE_OIIO_FOR_APPS: "ON"
+        file: build-opencolorio
+    requirements:
+      build:
+        - ${{ compiler("cxx") }}
+        - cmake
+        - ninja
+        - if: not win
+          then: make
+      host:
+        - ${{ pin_subpackage("libopencolorio", exact=True) }}
+        - ${{ pin_subpackage("libopenimageio", exact=True) }}
+        - yaml-cpp
+        - minizip
+        - imath
+        - pystring
+        - expat
+        - zlib
+        - lcms2
+        - openexr
+        # OpenGL support for GPU-accelerated tools and ociodisplay.
+        # OCIO's CheckSupportGL.cmake requires OpenGL + GLUT on all platforms.
+        # It also requires GLEW on non-Apple platforms.
+        # On macOS, GLUT is expected from the system framework, not from conda.
+        # If any required GL dependency is missing, OCIO_GL_ENABLED is OFF and
+        # ociodisplay / GPU code paths are skipped at build time.
+        # With OCIO_USE_HEADLESS=ON it additionally needs EGL on Linux for
+        # headless GPU usage. mesalib provides the software EGL/GL renderer.
+        - if: linux
+          then:
+            - freeglut
+            - glew
+            - libgl-devel
+            - libopengl-devel
+            - libegl-devel
+            - mesalib
+        - if: win
+          then:
+            - freeglut
+            - glew
+    tests:
+      - package_contents:
+          strict: true
+          bin:
+            - ocioarchive
+            - ociobakelut
+            - ociocheck
+            - ociochecklut
+            - ociocpuinfo
+            - ociomakeclf
+            - ociomergeconfigs
+            - ocioperf
+            - ociowrite
+            - ocioconvert
+            - ociolutimage
+            - ociodisplay
+      - script:
+          # package_contents.bin already verifies that every expected CLI is
+          # packaged. Keep only targeted runtime smoke tests for distinct
+          # link/behavior surfaces that file presence alone would not cover:
+          # ocioarchive -> minizip, ociobakelut -> lcms2,
+          # ociomergeconfigs -> pystring, ociochecklut -> core CLI startup,
+          # ociolutimage/ocioconvert -> OIIO-backed image I/O,
+          # ociochecklut --gpu / ociodisplay -> GL-enabled build paths.
+          file: tests/test-opencolorio-tools
+    about:
+      homepage: https://opencolorio.org/
+      summary: OpenColorIO command-line tools built with OpenImageIO integration
+      description: OpenColorIO command-line tools with OpenImageIO-backed image format support.
+      license: BSD-3-Clause
+      license_file: ocio_src/LICENSE
+      repository: https://github.com/AcademySoftwareFoundation/OpenColorIO
+      documentation: https://opencolorio.readthedocs.io/
+
+  - package:
+      name: openimageio
+    requirements:
+      run:
+        - ${{ pin_subpackage("libopenimageio", exact=True) }}
+        - ${{ pin_subpackage("openimageio-tools", exact=True) }}
+    tests:
+      - script:
+          - oiiotool --help
+          - iinfo --help
+    about:
+      summary: OpenImageIO library and command-line tools bundle
+      description: OpenImageIO runtime library and command-line tools bundle.
+
+  - package:
+      name: opencolorio
+      version: ${{ ocio_version }}
+    requirements:
+      run:
+        - ${{ pin_subpackage("libopencolorio", exact=True) }}
+        - ${{ pin_subpackage("opencolorio-tools", exact=True) }}
+    tests:
+      - script:
+          - ociocpuinfo
+    about:
+      homepage: https://opencolorio.org/
+      summary: OpenColorIO library and command-line tools bundle
+      description: OpenColorIO library and command-line tools bundle for color management pipelines.
+      license: BSD-3-Clause
+      license_file: ocio_src/LICENSE
+      repository: https://github.com/AcademySoftwareFoundation/OpenColorIO
+      documentation: https://opencolorio.readthedocs.io/
 
 about:
-  homepage: https://sites.google.com/site/openimageio/home
-  license: BSD-3-Clause
-  license_file: LICENSE.md
-  summary: Simple but powerful APIs for reading & writing many image formats
+  homepage: https://openimageio.org
+  license: Apache-2.0
+  license_file: oiio_src/LICENSE.md
+  summary: Libraries, tools, and Python bindings for reading, writing, and processing images
   description: |
+    OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+    The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
     OpenImageIO consists of:
-    - Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction
-      for reading and writing image files of nearly any format, without the calling
-      application needing to know any of the details of these file formats, and indeed
-      without the calling application needing to be aware of which formats are available.
-    - Plugins implementing I/O for several popular image file formats, including TIFF,
-      JPEG/JFIF, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS,
-      Softimage PIC, PNM, DPX, Cineon, IFF, Field3D, Ptex, Photoshop PSD, Wavefront RLA, SGI,
-      WebP, GIF, DICOM, many \"RAW\" digital camera formats, and a variety of movie formats
-      (readable as individual frames). More are being developed all the time.
-    - An ImageCache class that transparently manages a cache so that it can access truly
-      vast amounts of image data (tens of thousands of image files totaling multiple TB)
-      very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
-  documentation: https://openimageio.readthedocs.io/en/latest/
-  repository: https://github.com/OpenImageIO/oiio
+    - Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+    - A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+    - Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+    - Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+    - An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+    - A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+    - ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+    - Python bindings for all of the major APIs.
+  documentation: https://openimageio.readthedocs.io/
+  repository: https://github.com/AcademySoftwareFoundation/OpenImageIO
 
 extra:
   recipe-maintainers:

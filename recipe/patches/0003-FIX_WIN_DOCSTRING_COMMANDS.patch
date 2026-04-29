@@ -1,0 +1,27 @@
+From 7dec3b5d1fc9b2fa9f2fe5035f970874be5c5f00 Mon Sep 17 00:00:00 2001
+From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 12:54:19 +0200
+Subject: [PATCH] FIX WINDOWS DOCSTRING EXTRACTION COMMAND
+
+Bypass the Windows Python precommand wrapper for docstring extraction. 
+
+The wrapper inflates the command length with massive PATH/PYTHONPATH variables, which can break Ninja builds on Windows. Running the extractor directly is sufficient and keeps the batch command reliably within length limits.
+
+Reference: N/A (no upstream PR yet)
+---
+ src/bindings/python/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/bindings/python/CMakeLists.txt b/src/bindings/python/CMakeLists.txt
+index b3a34363..54addd85 100644
+--- a/src/bindings/python/CMakeLists.txt
++++ b/src/bindings/python/CMakeLists.txt
+@@ -22,7 +22,7 @@ if(OCIO_BUILD_DOCS)
+ 	# Run docstring extraction if docstrings.h is behind doxygen XML
+ 	add_custom_command(OUTPUT ${PYOCIO_DOCSTRINGS_H}
+ 		COMMAND
+-			${Python_PRE_CMD} "${Python_EXECUTABLE}" "${EXTRACT_DOCSTRINGS_PY}" xml docstrings.h
++			"${Python_EXECUTABLE}" "${EXTRACT_DOCSTRINGS_PY}" xml docstrings.h
+ 		WORKING_DIRECTORY
+ 			${PYOCIO_DOCSTRINGS_DIR}
+ 		DEPENDS

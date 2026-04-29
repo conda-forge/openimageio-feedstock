@@ -3,29 +3,222 @@ About openimageio-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/openimageio-feedstock/blob/main/LICENSE.txt)
 
-Home: https://sites.google.com/site/openimageio/home
+
+About openimageio
+-----------------
+
+Home: https://opencolorio.org/
 
 Package license: BSD-3-Clause
 
-Summary: Simple but powerful APIs for reading & writing many image formats
+Summary: OpenColorIO core C++ library and headers
 
-Development: https://github.com/OpenImageIO/oiio
+Development: https://github.com/AcademySoftwareFoundation/OpenColorIO
 
-Documentation: https://openimageio.readthedocs.io/en/latest/
+Documentation: https://opencolorio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
 
 OpenImageIO consists of:
-- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction
-  for reading and writing image files of nearly any format, without the calling
-  application needing to know any of the details of these file formats, and indeed
-  without the calling application needing to be aware of which formats are available.
-- Plugins implementing I/O for several popular image file formats, including TIFF,
-  JPEG/JFIF, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS,
-  Softimage PIC, PNM, DPX, Cineon, IFF, Field3D, Ptex, Photoshop PSD, Wavefront RLA, SGI,
-  WebP, GIF, DICOM, many \"RAW\" digital camera formats, and a variety of movie formats
-  (readable as individual frames). More are being developed all the time.
-- An ImageCache class that transparently manages a cache so that it can access truly
-  vast amounts of image data (tens of thousands of image files totaling multiple TB)
-  very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About libopenimageio
+--------------------
+
+Home: https://openimageio.org/
+
+Package license: Apache-2.0
+
+Summary: Libraries, tools, and Python bindings for reading, writing, and processing images
+
+Development: https://github.com/AcademySoftwareFoundation/OpenImageIO
+
+Documentation: https://openimageio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About opencolorio
+-----------------
+
+Home: https://opencolorio.org/
+
+Package license: BSD-3-Clause
+
+Summary: OpenColorIO library and command-line tools bundle
+
+Development: https://github.com/AcademySoftwareFoundation/OpenColorIO
+
+Documentation: https://opencolorio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About opencolorio-tools
+-----------------------
+
+Home: https://opencolorio.org/
+
+Package license: BSD-3-Clause
+
+Summary: OpenColorIO command-line tools built with OpenImageIO integration
+
+Development: https://github.com/AcademySoftwareFoundation/OpenColorIO
+
+Documentation: https://opencolorio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About openimageio
+-----------------
+
+Home: https://openimageio.org/
+
+Package license: Apache-2.0
+
+Summary: OpenImageIO library and command-line tools bundle
+
+Development: https://github.com/AcademySoftwareFoundation/OpenImageIO
+
+Documentation: https://openimageio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About openimageio-tools
+-----------------------
+
+Home: https://openimageio.org/
+
+Package license: Apache-2.0
+
+Summary: Libraries, tools, and Python bindings for reading, writing, and processing images
+
+Development: https://github.com/AcademySoftwareFoundation/OpenImageIO
+
+Documentation: https://openimageio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About py-opencolorio
+--------------------
+
+Home: https://opencolorio.org/
+
+Package license: BSD-3-Clause
+
+Summary: Python bindings for OpenColorIO
+
+Development: https://github.com/AcademySoftwareFoundation/OpenColorIO
+
+Documentation: https://opencolorio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
+
+About py-openimageio
+--------------------
+
+Home: https://openimageio.org/
+
+Package license: Apache-2.0
+
+Summary: Libraries, tools, and Python bindings for reading, writing, and processing images
+
+Development: https://github.com/AcademySoftwareFoundation/OpenImageIO
+
+Documentation: https://openimageio.readthedocs.io/
+
+OpenImageIO is a toolset for reading, writing, and manipulating image files of any image file format relevant to VFX / animation via a format-agnostic API with a feature set, scalability, and robustness needed for feature film production.
+
+The primary target audience for OIIO is VFX studios and developers of tools such as renderers, compositors, viewers, and other image-related software you'd find in a production pipeline.
+
+OpenImageIO consists of:
+- Simple but powerful ImageInput and ImageOutput APIs that provide an abstraction for reading and writing image files of nearly any format, without the calling application needing to know any of the details of these file formats, and indeed without the calling application needing to be aware of which formats are available.
+- A library that manages subclasses of ImageInput and ImageOutput that implement I/O from specific file formats, with each file format's implementation stored as a plug-in. Therefore, an application using OpenImageIO's APIs can read and write any image file for which a plugin can be found at runtime.
+- Plugins implementing I/O for several popular image file formats, including TIFF, JPEG/JFIF, JPEG XL, OpenEXR, PNG, HDR/RGBE, ICO, BMP, Targa, JPEG-2000, RMan Zfile, FITS, DDS, Softimage PIC, PNM, DPX, Cineon, IFF, OpenVDB, Ptex, Photoshop PSD, Wavefront RLA, SGI, WebP, GIF, DICOM, HEIF/HEIC/AVIF, many "RAW" digital camera formats, and a variety of movie formats (readable as individual frames). More are being developed all the time.
+- Several command line image tools based on these classes, including oiiotool (command-line format conversion and image processing), iinfo (print detailed info about images), iconvert (convert among formats, data types, or modify metadata), idiff (compare images), igrep (search images for matching metadata), and iv (an image viewer). Because these tools are based on ImageInput/ImageOutput, they work with any image formats for which ImageIO plugins are available.
+- An ImageCache class that transparently manages a cache so that it can access truly vast amounts of image data (tens of thousands of image files totaling multiple TB) very efficiently using only a tiny amount (tens of megabytes at most) of runtime memory.
+- A TextureSystem class that provides filtered MIP-map texture lookups, atop the nice caching behavior of ImageCache. This is used in commercial renderers and has been used on many large VFX and animated films.
+- ImageBuf and ImageBufAlgo functions -- a simple class for storing and manipulating whole images in memory, and a collection of the most useful computations you might want to do involving those images, including many image processing operations.
+- Python bindings for all of the major APIs.
 
 Current build status
 ====================
@@ -99,7 +292,13 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopencolorio-green.svg)](https://anaconda.org/conda-forge/libopencolorio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencolorio.svg)](https://anaconda.org/conda-forge/libopencolorio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencolorio.svg)](https://anaconda.org/conda-forge/libopencolorio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencolorio.svg)](https://anaconda.org/conda-forge/libopencolorio) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopenimageio-green.svg)](https://anaconda.org/conda-forge/libopenimageio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopenimageio.svg)](https://anaconda.org/conda-forge/libopenimageio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopenimageio.svg)](https://anaconda.org/conda-forge/libopenimageio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopenimageio.svg)](https://anaconda.org/conda-forge/libopenimageio) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencolorio-green.svg)](https://anaconda.org/conda-forge/opencolorio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencolorio.svg)](https://anaconda.org/conda-forge/opencolorio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencolorio.svg)](https://anaconda.org/conda-forge/opencolorio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencolorio.svg)](https://anaconda.org/conda-forge/opencolorio) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencolorio--tools-green.svg)](https://anaconda.org/conda-forge/opencolorio-tools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencolorio-tools.svg)](https://anaconda.org/conda-forge/opencolorio-tools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencolorio-tools.svg)](https://anaconda.org/conda-forge/opencolorio-tools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencolorio-tools.svg)](https://anaconda.org/conda-forge/opencolorio-tools) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-openimageio-green.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/openimageio.svg)](https://anaconda.org/conda-forge/openimageio) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-openimageio--tools-green.svg)](https://anaconda.org/conda-forge/openimageio-tools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/openimageio-tools.svg)](https://anaconda.org/conda-forge/openimageio-tools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/openimageio-tools.svg)](https://anaconda.org/conda-forge/openimageio-tools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/openimageio-tools.svg)](https://anaconda.org/conda-forge/openimageio-tools) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencolorio-green.svg)](https://anaconda.org/conda-forge/py-opencolorio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencolorio.svg)](https://anaconda.org/conda-forge/py-opencolorio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencolorio.svg)](https://anaconda.org/conda-forge/py-opencolorio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencolorio.svg)](https://anaconda.org/conda-forge/py-opencolorio) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-py--openimageio-green.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-openimageio.svg)](https://anaconda.org/conda-forge/py-openimageio) |
 
 Installing openimageio
@@ -112,41 +311,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `openimageio, py-openimageio` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libopencolorio, libopenimageio, opencolorio, opencolorio-tools, openimageio, openimageio-tools, py-opencolorio, py-openimageio` can be installed with `conda`:
 
 ```
-conda install openimageio py-openimageio
-```
-
-or with `mamba`:
-
-```
-mamba install openimageio py-openimageio
-```
-
-It is possible to list all of the versions of `openimageio` available on your platform with `conda`:
-
-```
-conda search openimageio --channel conda-forge
+conda install libopencolorio libopenimageio opencolorio opencolorio-tools openimageio openimageio-tools py-opencolorio py-openimageio
 ```
 
 or with `mamba`:
 
 ```
-mamba search openimageio --channel conda-forge
+mamba install libopencolorio libopenimageio opencolorio opencolorio-tools openimageio openimageio-tools py-opencolorio py-openimageio
+```
+
+It is possible to list all of the versions of `libopencolorio` available on your platform with `conda`:
+
+```
+conda search libopencolorio --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search libopencolorio --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search openimageio --channel conda-forge
+mamba repoquery search libopencolorio --channel conda-forge
 
-# List packages depending on `openimageio`:
-mamba repoquery whoneeds openimageio --channel conda-forge
+# List packages depending on `libopencolorio`:
+mamba repoquery whoneeds libopencolorio --channel conda-forge
 
-# List dependencies of `openimageio`:
-mamba repoquery depends openimageio --channel conda-forge
+# List dependencies of `libopencolorio`:
+mamba repoquery depends libopencolorio --channel conda-forge
 ```
 
 
