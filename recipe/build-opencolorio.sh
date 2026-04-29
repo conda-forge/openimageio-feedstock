@@ -10,12 +10,12 @@ OCIO_BUILD_PYTHON="${OCIO_BUILD_PYTHON:-OFF}"
 OCIO_USE_OIIO_FOR_APPS="${OCIO_USE_OIIO_FOR_APPS:-OFF}"
 
 python_executable="${PYTHON:-}"
-
-mkdir -p build_ocio
-pushd build_ocio
+build_dir="${SRC_DIR}/build_ocio"
 
 cmake_args=(
-    -GNinja
+    -S "${SRC_DIR}/ocio_src"
+    -B "${build_dir}"
+    -G Ninja
     -DCMAKE_INSTALL_PREFIX="${PREFIX}"
     -DCMAKE_BUILD_TYPE=Release
     -DBUILD_SHARED_LIBS=ON
@@ -42,6 +42,8 @@ cmake_args=(
 )
 
 if [[ "${target_platform}" == osx-* ]]; then
+    # conda-forge supports older macOS deployment targets than the SDK headers
+    # expose by default; disable libc++ availability annotations during build.
     export CXXFLAGS="${CXXFLAGS:-} -D_LIBCPP_DISABLE_AVAILABILITY"
     # OCIO's Apple hidden-link logic keys off minizip_LIBRARY for compat-mode builds.
     # conda-forge's minizip package currently ships libminizip without the compat
@@ -77,16 +79,16 @@ else
     cmake_args+=(-DOCIO_USE_HEADLESS=OFF)
 fi
 
-# OCIO_BUILD_DOCS=ON enables Doxygen-based docstring extraction for Python bindings.
 # Building PyOpenColorIO with docs disabled produces incomplete Python docstrings.
+# OCIO_BUILD_DOCS=ON enables Doxygen-based docstring extraction for Python bindings.
 #
 if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
+    # Use the active conda Python's sysconfig. In cross builds this may be a
+    # wrapper that reports target-platform include paths.
     python_include_dir="$("${python_executable}" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
     cmake_args+=(
         -DOCIO_BUILD_DOCS=ON
         -DOCIO_PYTHON_VERSION="${PY_VER}"
-        # Use conda-forge's active Python. For cross builds, cross-python sets
-        # this to a build-platform wrapper with target-platform Python metadata.
         -DPython_EXECUTABLE="${python_executable}"
         -DPython_INCLUDE_DIR="${python_include_dir}"
     )
@@ -95,35 +97,23 @@ else
 fi
 
 if [[ -n "${CMAKE_ARGS:-}" ]]; then
+    # conda/rattler injects compiler, sysroot, and platform flags through this
+    # shell-style argument list. Keep it last so platform overrides still win.
     # shellcheck disable=SC2206
-    extra_cmake_args=( ${CMAKE_ARGS} )
-    cmake_args=("${cmake_args[@]}" "${extra_cmake_args[@]}")
+    cmake_args+=( ${CMAKE_ARGS} )
 fi
 
-cmake "${cmake_args[@]}" ../ocio_src
+cmake "${cmake_args[@]}"
 if [[ "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
     # PyOpenColorIO needs the docstring_extraction target (part of
     # OCIO_BUILD_DOCS) to generate Python docstrings from Doxygen output.
     # Building the default ALL target would also invoke sphinx-build, which
     # fails due to missing theme packages, so build only the PyOpenColorIO target.
-    cmake --build . --config Release --target PyOpenColorIO -j"${CPU_COUNT:-1}"
+    cmake --build "${build_dir}" --config Release --target PyOpenColorIO -j"${CPU_COUNT}"
     # docs/cmake_install.cmake installs build-html/ regardless of whether Sphinx
     # ran. Create an empty placeholder so cmake --install does not fail.
-    mkdir -p docs/build-html
-    cmake --install . --config Release
+    mkdir -p "${build_dir}/docs/build-html"
+    cmake --install "${build_dir}" --config Release
 else
-    cmake --build . --config Release --target install -j"${CPU_COUNT:-1}"
+    cmake --build "${build_dir}" --config Release --target install -j"${CPU_COUNT}"
 fi
-
-# For tools and python outputs: remove files owned by the base OCIO package
-# to avoid output overlap.
-if [[ "${OCIO_BUILD_APPS}" == "ON" || "${OCIO_BUILD_PYTHON}" == "ON" ]]; then
-    rm -rf "${PREFIX}/include/OpenColorIO"
-    rm -rf "${PREFIX}/lib/cmake/OpenColorIO"
-    rm -f "${PREFIX}"/lib/libOpenColorIO*
-    rm -f "${PREFIX}"/lib/libOpenColorIO*.a
-    rm -f "${PREFIX}"/lib/pkgconfig/OpenColorIO*.pc
-    rm -rf "${PREFIX}/share/doc/OpenColorIO"
-fi
-
-popd

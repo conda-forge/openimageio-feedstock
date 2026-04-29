@@ -2,25 +2,29 @@
 
 set -euxo pipefail
 
-output_kind="${OIIO_OUTPUT:-core}"
+output_kind="${OIIO_OUTPUT:?OIIO_OUTPUT must be set}"
 
 source_root="${SRC_DIR}/oiio_src"
 
-if [[ ! -f "${source_root}/CMakeLists.txt" ]]; then
-    echo "Could not find OpenImageIO source root at ${source_root}" >&2
-    find "${SRC_DIR}" -maxdepth 2 -name CMakeLists.txt -print >&2 || true
-    exit 1
-fi
-
-export CXXFLAGS="${CXXFLAGS:-} -DGIFLIB_MAJOR=5"
-
 if [[ "${target_platform}" == "linux-aarch64" ]]; then
-    export CXXFLAGS="${CXXFLAGS} -flax-vector-conversions"
+    # OIIO's NEON SIMD helpers use vector casts that GCC rejects on aarch64
+    # without this compatibility flag.
+    export CXXFLAGS="${CXXFLAGS:-} -flax-vector-conversions"
 fi
 
 python_executable="${PYTHON:-}"
 
-build_dir="${SRC_DIR}/build-${output_kind}"
+build_dir="${SRC_DIR}/build-stage"
+
+# The following advanced integrations are currently enabled:
+#   - DICOM support via DCMTK.
+#
+# The following integrations remain intentionally off until their packaging are ready / possible / wanted :
+#   - Ultra HDR via libuhdr.
+#   - OpenCV bridge.
+#   - OpenVDB support.
+#   - Ptex support.
+#   - RED R3D SDK support.
 
 cmake_args=(
     -S "${source_root}"
@@ -61,59 +65,47 @@ cmake_args=(
     -DENABLE_Ptex=OFF
     -DENABLE_DCMTK=ON
     -DUSE_R3DSDK=OFF
+    -DOIIO_BUILD_TOOLS=ON
+    -DINSTALL_FONTS=ON
+    -DENABLE_iconvert=ON
+    -DENABLE_idiff=ON
+    -DENABLE_igrep=ON
+    -DENABLE_iinfo=ON
+    -DENABLE_maketx=ON
+    -DENABLE_oiiotool=ON
+    -DENABLE_INSTALL_iconvert=OFF
+    -DENABLE_INSTALL_idiff=OFF
+    -DENABLE_INSTALL_igrep=OFF
+    -DENABLE_INSTALL_iinfo=OFF
+    -DENABLE_INSTALL_maketx=OFF
+    -DENABLE_INSTALL_oiiotool=OFF
+    -DENABLE_iv=OFF
+    -DENABLE_testtex=OFF
 )
 
-# The following advanced integrations are currently enabled:
-#   - DICOM support via DCMTK.
-#
-# The following integrations remain intentionally off until their packaging are ready:
-#   - OpenCV bridge.
-#   - OpenVDB support.
-#   - Ptex support.
-#   - Ultra HDR via libuhdr.
-#   - RED R3D SDK support.
-
-if [[ -n "${CMAKE_ARGS:-}" ]]; then
-    # shellcheck disable=SC2206
-    extra_cmake_args=( ${CMAKE_ARGS} )
-    cmake_args=("${cmake_args[@]}" "${extra_cmake_args[@]}")
-fi
-
 case "${output_kind}" in
-    core)
-        cmake_args+=(
-            -DOIIO_BUILD_TOOLS=OFF
-            -DINSTALL_FONTS=ON
-            -DUSE_PYTHON=OFF
-            -DENABLE_iv=OFF
-            -DENABLE_testtex=OFF
-        )
+    tools-staged)
+        # CMake's normal install also records these executables in
+        # lib/cmake/OpenImageIO/OpenImageIOTargets.cmake. This output only needs
+        # the binaries, so copy the staged tools directly.
+        mkdir -p "${PREFIX}/bin"
+        cp "${build_dir}/bin/"* "${PREFIX}/bin/"
+        exit 0
         ;;
-    tools)
-        cmake_args+=(
-            -DOIIO_BUILD_TOOLS=ON
-            -DINSTALL_FONTS=OFF
-            -DUSE_PYTHON=OFF
-            -DENABLE_iconvert=ON
-            -DENABLE_idiff=ON
-            -DENABLE_igrep=ON
-            -DENABLE_iinfo=ON
-            -DENABLE_maketx=ON
-            -DENABLE_oiiotool=ON
-            -DENABLE_iv=OFF
-            -DENABLE_testtex=OFF
-        )
+    core-staged)
+        # The core library does not depend on Python or OIIO's CLI tools, so disable those integrations.
+        cmake_args+=(-DUSE_PYTHON=OFF)
         ;;
-    python)
+    python-staged)
+        # Use the active conda Python's sysconfig. In cross builds this may be
+        # a wrapper that reports target-platform include paths.
         python_include_dir="$("${python_executable}" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
         cmake_args+=(
-            -DOIIO_BUILD_TOOLS=OFF
-            -DINSTALL_FONTS=OFF
             -DUSE_PYTHON=ON
-            -DENABLE_iv=OFF
-            -DENABLE_testtex=OFF
         )
         if [[ -n "${PY_VER:-}" ]]; then
+            # Select the exact CPython variant for PyOpenImageIO (Patch 0004
+            # only keeps this from dirtying the staged core library target).
             cmake_args+=("-DPYTHON_VERSION=${PY_VER}")
         fi
         if [[ -n "${python_executable}" ]]; then
@@ -131,17 +123,20 @@ case "${output_kind}" in
         ;;
 esac
 
+if [[ -n "${CMAKE_ARGS:-}" ]]; then
+    # conda/rattler injects compiler, sysroot, and platform flags through this
+    # shell-style argument list. Keep it last so platform overrides still win.
+    # shellcheck disable=SC2206
+    cmake_args+=( ${CMAKE_ARGS} )
+fi
+
 cmake "${cmake_args[@]}"
-cmake --build "${build_dir}" --parallel "${CPU_COUNT:-1}"
+if [[ "${output_kind}" == "python-staged" ]]; then
+    cmake --build "${build_dir}" --target PyOpenImageIO --parallel "${CPU_COUNT}"
+else
+    cmake --build "${build_dir}" --parallel "${CPU_COUNT}"
+fi
 cmake --install "${build_dir}"
 
+# Remove the docs directory that was installed by OCIO_BUILD_DOCS=ON, which is not needed for OpenImageIO and takes up space.
 rm -rf "${PREFIX}/share/doc/OpenImageIO"
-
-if [[ "${output_kind}" == "tools" || "${output_kind}" == "python" ]]; then
-    rm -rf "${PREFIX}/include/OpenImageIO"
-    rm -rf "${PREFIX}/lib/cmake/OpenImageIO"
-    rm -f "${PREFIX}"/lib/libOpenImageIO*
-    rm -f "${PREFIX}"/lib/libOpenImageIO_Util*
-    rm -f "${PREFIX}"/lib/pkgconfig/OpenImageIO.pc
-    rm -rf "${PREFIX}/share/fonts/OpenImageIO"
-fi

@@ -3,9 +3,9 @@ From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
 Date: Sat, 25 Apr 2026 12:54:19 +0200
 Subject: [PATCH] FIX WINDOWS DOCSTRING EXTRACTION COMMAND
 
-Run the PyOpenColorIO docstring extractor directly instead of through the Windows Python precommand wrapper.
+Bypass the Windows Python precommand wrapper for docstring extraction. 
 
-The extractor only needs Python, six, and the Doxygen XML working directory. Avoiding the long PATH/PYTHONPATH wrapper keeps Ninja's generated batch command reliable while preserving generated docstrings.
+The wrapper inflates the command length with massive PATH/PYTHONPATH variables, which can break Ninja builds on Windows. Running the extractor directly is sufficient and keeps the batch command reliably within length limits.
 
 Reference: N/A (no upstream PR yet)
 ---
