@@ -129,7 +129,7 @@ outputs:
           files:
             - if: win
               then:
-                - Library/bin/OpenColorIO*.dll
+                - Library/bin/OpenColorIO.lib
                 - Library/lib/cmake/OpenColorIO/**
                 - Library/lib/pkgconfig/OpenColorIO*.pc
               else:
@@ -299,7 +299,7 @@ outputs:
           files:
             - if: win
               then:
-                - Library/bin/OpenImageIO*.dll
+                - Library/bin/OpenImageIO.lib
                 - Library/lib/cmake/OpenImageIO/**
                 - Library/share/fonts/OpenImageIO/**
               else:
