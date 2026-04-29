@@ -129,6 +129,7 @@ outputs:
           files:
             - if: win
               then:
+                - Library/bin/OpenColorIO*.dll
                 - Library/lib/cmake/OpenColorIO/**
                 - Library/lib/pkgconfig/OpenColorIO*.pc
               else:
@@ -297,6 +298,7 @@ outputs:
           files:
             - if: win
               then:
+                - Library/bin/OpenImageIO*.dll
                 - Library/lib/cmake/OpenImageIO/**
               else:
                 - lib/cmake/OpenImageIO/**
@@ -616,4 +618,3 @@ extra:
     - lgritz
     - h-vetinari
   feedstock-name: openimageio
-
