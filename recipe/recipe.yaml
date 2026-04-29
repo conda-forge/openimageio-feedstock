@@ -125,11 +125,15 @@ outputs:
           include:
             - OpenColorIO/**
           lib:
-            - OpenColorIO
+            - if: win
+              then: OpenColorIO.lib
+              else: OpenColorIO
+          bin:
+            - if: win
+              then: OpenColorIO_*.dll
           files:
             - if: win
               then:
-                - Library/bin/OpenColorIO.lib
                 - Library/lib/cmake/OpenColorIO/**
                 - Library/lib/pkgconfig/OpenColorIO*.pc
               else:
@@ -294,12 +298,19 @@ outputs:
           include:
             - OpenImageIO/**
           lib:
-            - OpenImageIO
-            - OpenImageIO_Util
+            - if: win
+              then:
+                - OpenImageIO.lib
+                - OpenImageIO_Util.lib
+              else:
+                - OpenImageIO
+                - OpenImageIO_Util
+          bin:
+            - if: win
+              then: OpenImageIO*.dll
           files:
             - if: win
               then:
-                - Library/bin/OpenImageIO.lib
                 - Library/lib/cmake/OpenImageIO/**
                 - Library/share/fonts/OpenImageIO/**
               else:
