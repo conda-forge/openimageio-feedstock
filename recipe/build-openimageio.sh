@@ -130,6 +130,13 @@ if [[ -n "${CMAKE_ARGS:-}" ]]; then
     cmake_args+=( ${CMAKE_ARGS} )
 fi
 
+if [[ "${target_platform}" == osx-* && -n "${CONDA_BUILD_SYSROOT:-}" ]]; then
+    # Keep inherited staged CMake build dirs stable across macOS outputs.
+    # Otherwise build cache is invalide and there will be recompilation
+    # for the python outputs resulting in longer build times.
+    cmake_args+=("-DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT}")
+fi
+
 cmake "${cmake_args[@]}"
 if [[ "${output_kind}" == "python-staged" ]]; then
     cmake --build "${build_dir}" --target PyOpenImageIO --parallel "${CPU_COUNT}"
