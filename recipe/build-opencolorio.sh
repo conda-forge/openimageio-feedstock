@@ -17,6 +17,7 @@ cmake_args=(
     -B "${build_dir}"
     -G Ninja
     -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    -DCMAKE_PREFIX_PATH="${PREFIX}"
     -DCMAKE_BUILD_TYPE=Release
     -DBUILD_SHARED_LIBS=ON
     -DOCIO_BUILD_APPS="${OCIO_BUILD_APPS}"
@@ -96,18 +97,13 @@ else
     cmake_args+=(-DOCIO_BUILD_DOCS=OFF)
 fi
 
-if [[ -n "${CMAKE_ARGS:-}" ]]; then
-    # conda/rattler injects compiler, sysroot, and platform flags through this
-    # shell-style argument list. Keep it last so platform overrides still win.
+if [[ -n "${CMAKE_ARGS:-}" && ! -f "${build_dir}/CMakeCache.txt" ]]; then
+    # Only the first configure owns activation-generated toolchain/platform args.
+    # Inherited outputs re-enter this staged CMake tree with output-specific
+    # options only; replaying CMAKE_ARGS can rewrite cached toolchain values
+    # such as CMAKE_OSX_SYSROOT and make Ninja rebuild staged core objects.
     # shellcheck disable=SC2206
     cmake_args+=( ${CMAKE_ARGS} )
-fi
-
-if [[ "${target_platform}" == osx-* && -n "${CONDA_BUILD_SYSROOT:-}" ]]; then
-    # Keep inherited staged CMake build dirs stable across macOS outputs.
-    # Otherwise build cache is invalide and there will be recompilation
-    # for the python outputs resulting in longer build times.
-    cmake_args+=("-DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT}")
 fi
 
 cmake "${cmake_args[@]}"

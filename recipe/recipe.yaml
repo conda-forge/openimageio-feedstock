@@ -76,6 +76,7 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
         - ninja
@@ -170,6 +171,7 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
         - ninja
@@ -461,6 +463,7 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
         - ninja
