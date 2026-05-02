@@ -118,6 +118,11 @@ outputs:
             - lib/cmake/OpenColorIO/**
             - lib/pkgconfig/OpenColorIO*.pc
     requirements:
+      build:
+        # Keep compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
+        # the concrete output that first creates the staging cache.
+        - ${{ compiler("c") }}
+        - ${{ compiler("cxx") }}
       run_exports:
         weak:
           - ${{ pin_subpackage("libopencolorio", upper_bound="x.x") }}
@@ -303,6 +308,11 @@ outputs:
             - lib/pkgconfig/OpenImageIO.pc
             - share/fonts/OpenImageIO/**
     requirements:
+      build:
+        # Keep compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
+        # the concrete output that first creates the staging cache.
+        - ${{ compiler("c") }}
+        - ${{ compiler("cxx") }}
       run_exports:
         weak:
           - ${{ pin_subpackage("libopenimageio", upper_bound="x.x") }}
