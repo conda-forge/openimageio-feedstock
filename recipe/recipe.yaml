@@ -123,6 +123,9 @@ outputs:
         # the concrete output that first creates the staging cache.
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
+      host:
+        # Needed so the manual runtime pin below until pystring has its own run_exports.
+        - pystring
       run_exports:
         weak:
           - ${{ pin_subpackage("libopencolorio", upper_bound="x.x") }}
