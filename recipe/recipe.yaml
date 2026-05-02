@@ -92,7 +92,7 @@ outputs:
       ignore_run_exports:
         from_package:
           # zlib is required at build/link time for minizip-ng, but OCIO has no
-          # direct runtime use of libzlib; minizip provides the runtime dependency.
+          # direct runtime use of libzlib so minizip provides the runtime dependency it needs.
           - zlib
 
   - package:
@@ -204,6 +204,11 @@ outputs:
           # suppress run export of build-only dependencies that are needed to 
           # reconfigure/build the Python bindings but not for runtime usage of the Python package;
           - zlib
+          - expat
+          - yaml-cpp
+          - pystring
+          - imath
+          - minizip
       run_exports:
         weak:
           - ${{ pin_subpackage("py-opencolorio", upper_bound="x") }}
@@ -380,6 +385,13 @@ outputs:
         from_package:
           - fmt
           - libxml2-devel
+          - freetype
+          - imath
+          - openexr
+          - pugixml
+          - libtiff
+          - zlib
+          - tbb-devel
       run_exports:
         weak:
           - ${{ pin_subpackage("py-openimageio", upper_bound="x") }}
@@ -495,6 +507,8 @@ outputs:
             - freeglut
             - glew
             - libgl-devel
+            - libglx-devel
+            - libglu
             - libopengl-devel
             - libegl-devel
             - mesalib
@@ -502,6 +516,20 @@ outputs:
           then:
             - freeglut
             - glew
+      run:
+        # TODO: remove when run export added to pystring feedstock.
+        - pystring
+      ignore_run_exports:
+        from_package:
+          # Needed to reconfigure OCIO tools against the staged libraries, but
+          # not directly linked by the packaged executables as we defer to the
+          # pinned subpackages for the runtime deps.
+          - zlib
+          - expat
+          - yaml-cpp
+          - imath
+          - openexr
+          - mesalib
     tests:
       - package_contents:
           strict: true
