@@ -79,20 +79,20 @@ outputs:
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
-        - ninja
         - if: not win
           then: make
+        - ninja
       host:
-        - yaml-cpp
-        - minizip
-        - zlib
-        - imath
-        - pystring
         - expat
+        - imath
+        - minizip
+        - pystring
         # SSE2NEON is used for NEON acceleration but upstream uses it only for osx and win ARM64.
         # Awaiting upstream enablement and testing before enabling here as well.
         - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
           then: sse2neon
+        - yaml-cpp
+        - zlib
       ignore_run_exports:
         from_package:
           # zlib is required at build/link time for minizip-ng, but OCIO has no
@@ -183,14 +183,14 @@ outputs:
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
-        - ninja
+        - doxygen
         - if: not win
           then: make
-        - doxygen
+        - ninja
         - if: build_platform != target_platform
           then:
-            - python
             - cross-python_${{ target_platform }}
+            - python
       host:
         - python
         - pybind11
@@ -198,28 +198,28 @@ outputs:
         # The runtime libraries pulled by libopencolorio do not include headers
         # and are needed again to reconfigure the Python bindings build.
         - expat
-        - zlib
-        - yaml-cpp
-        - pystring
         - imath
         - minizip
+        - pystring
         - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
           then: sse2neon
+        - yaml-cpp
+        - zlib
         # OCIO_BUILD_DOCS=ON triggers doc building to populate Python docstrings and needs:
-        - sphinx
         - breathe
         - recommonmark
         - six
+        - sphinx
       ignore_run_exports:
         from_package:
           # suppress run export of build-only dependencies that are needed to 
           # reconfigure/build the Python bindings but not for runtime usage of the Python package;
-          - zlib
           - expat
-          - yaml-cpp
-          - pystring
           - imath
           - minizip
+          - pystring
+          - yaml-cpp
+          - zlib
       run_exports:
         weak:
           - ${{ pin_subpackage("py-opencolorio", upper_bound="x") }}
@@ -256,34 +256,33 @@ outputs:
         - ninja
         - pkg-config
       host:
+        - bzip2
+        - dcmtk
         - ffmpeg
         - fmt
         - freetype
         - giflib
         - imath
+        - ${{ pin_subpackage("libopencolorio", exact=True) }}
         - libheif
         - libjpeg-turbo
+        - libjxl
         - libpng
         - libraw
         - libtiff
         - libwebp
+        # Provides the unversioned libxml2.so linker symlink.
+        - libxml2-devel
         - openexr
         - openjpeg
+        - openjph
         - pugixml
         - tbb-devel
         - tsl_robin_map
         - zlib
-        # OIIO 3.x additions and enabled integrations.
-        - ${{ pin_subpackage("libopencolorio", exact=True) }}
-        - bzip2
-        - dcmtk
-        - libjxl
-        - openjph
         # Optional integration currently disabled in build-openimageio.
         # - libopencv
         # - openvdb  # Disabled until openvdb-feedstock is split; see issue #41 there.
-        # Provides the unversioned libxml2.so linker symlink.
-        - libxml2-devel
       ignore_run_exports:
         from_package:
           - fmt
@@ -369,10 +368,10 @@ outputs:
             # CMake executes Python during configuration to query PyBind11 and NumPy
             # include paths. We need the "build-architecture versions" of these packages
             # plus cross-python to prevent wrong-architecture ImportErrors.
-            - python
             - cross-python_${{ target_platform }}
-            - pybind11
             - numpy
+            - pybind11
+            - python
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
@@ -385,29 +384,29 @@ outputs:
         - pybind11
         # The runtime libraries pulled by libopenimageio do not include headers.
         # Those are needed again to reconfigure the Python bindings build.
+        - fmt
         - freetype
         - imath
+        - libtiff
+        - libxml2-devel
         - openexr
         - pugixml
-        - libtiff
-        - zlib
-        - fmt
-        - tsl_robin_map
         - tbb-devel
-        - libxml2-devel
+        - tsl_robin_map
+        - zlib
       ignore_run_exports:
         # Suppress run export of build-only dependencies that are needed toreconfigure/build
         # the Python bindings but not for runtime usage of the Python package
         from_package:
           - fmt
-          - libxml2-devel
           - freetype
           - imath
+          - libtiff
+          - libxml2-devel
           - openexr
           - pugixml
-          - libtiff
-          - zlib
           - tbb-devel
+          - zlib
       run_exports:
         weak:
           - ${{ pin_subpackage("py-openimageio", upper_bound="x") }}
@@ -496,22 +495,22 @@ outputs:
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
-        - ninja
         - if: not win
           then: make
+        - ninja
       host:
         - ${{ pin_subpackage("libopencolorio", exact=True) }}
         - ${{ pin_subpackage("libopenimageio", exact=True) }}
-        - yaml-cpp
-        - minizip
-        - imath
-        - pystring
         - expat
-        - zlib
+        - imath
+        - lcms2
+        - minizip
+        - openexr
+        - pystring
         - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
           then: sse2neon
-        - lcms2
-        - openexr
+        - yaml-cpp
+        - zlib
         # OpenGL support for GPU-accelerated tools and ociodisplay.
         # OCIO's CheckSupportGL.cmake requires OpenGL + GLUT on all platforms.
         # It also requires GLEW on non-Apple platforms.
@@ -524,11 +523,11 @@ outputs:
           then:
             - freeglut
             - glew
-            - libgl-devel
-            - libglx-devel
-            - libglu
-            - libopengl-devel
             - libegl-devel
+            - libgl-devel
+            - libglu
+            - libglx-devel
+            - libopengl-devel
             - mesalib
         - if: win
           then:
@@ -542,12 +541,12 @@ outputs:
           # Needed to reconfigure OCIO tools against the staged libraries, but
           # not directly linked by the packaged executables as we defer to the
           # pinned subpackages for the runtime deps.
-          - zlib
           - expat
-          - yaml-cpp
           - imath
-          - openexr
           - mesalib
+          - openexr
+          - yaml-cpp
+          - zlib
     tests:
       - package_contents:
           strict: true
@@ -556,14 +555,14 @@ outputs:
             - ociobakelut
             - ociocheck
             - ociochecklut
+            - ocioconvert
             - ociocpuinfo
+            - ociodisplay
+            - ociolutimage
             - ociomakeclf
             - ociomergeconfigs
             - ocioperf
             - ociowrite
-            - ocioconvert
-            - ociolutimage
-            - ociodisplay
       - script:
           # package_contents.bin already verifies that every expected CLI is
           # packaged. Keep only targeted runtime smoke tests for distinct
