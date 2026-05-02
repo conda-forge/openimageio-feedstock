@@ -89,6 +89,10 @@ outputs:
         - imath
         - pystring
         - expat
+        # SSE2NEON is used for NEON acceleration but upstream uses it only for osx and win ARM64.
+        # Awaiting upstream enablement and testing before enabling here as well.
+        - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
+          then: sse2neon
       ignore_run_exports:
         from_package:
           # zlib is required at build/link time for minizip-ng, but OCIO has no
@@ -194,7 +198,9 @@ outputs:
         - pystring
         - imath
         - minizip
-        # OCIO_BUILD_DOCS=ON triggers doc building to populate Python docstrings.
+        - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
+          then: sse2neon
+        # OCIO_BUILD_DOCS=ON triggers doc building to populate Python docstrings and needs:
         - sphinx
         - breathe
         - recommonmark
@@ -492,6 +498,8 @@ outputs:
         - pystring
         - expat
         - zlib
+        - if: target_platform == "osx-arm64" or target_platform == "win-arm64"
+          then: sse2neon
         - lcms2
         - openexr
         # OpenGL support for GPU-accelerated tools and ociodisplay.
