@@ -128,7 +128,7 @@ outputs:
           - ${{ pin_subpackage("libopencolorio", upper_bound="x.x") }}
       run:
         # TODO: remove when run export added to pystring feedstock
-        - pystring
+        - ${{ pin_compatible("pystring", upper_bound="x.x") }}
     tests:
       - package_contents:
           strict: true
@@ -536,7 +536,7 @@ outputs:
             - glew
       run:
         # TODO: remove when run export added to pystring feedstock.
-        - pystring
+        - ${{ pin_compatible("pystring", upper_bound="x.x") }}
       ignore_run_exports:
         from_package:
           # Needed to reconfigure OCIO tools against the staged libraries, but
