@@ -253,6 +253,7 @@ outputs:
         - libwebp
         - openexr
         - openjpeg
+        - pugixml
         - tbb-devel
         - tsl_robin_map
         - zlib
@@ -366,6 +367,7 @@ outputs:
         - freetype
         - imath
         - openexr
+        - pugixml
         - libtiff
         - zlib
         - fmt
