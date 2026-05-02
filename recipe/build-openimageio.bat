@@ -26,7 +26,7 @@ if /I "%OIIO_OUTPUT%"=="core-staged" (
     set "MODE_ARGS=-DUSE_PYTHON=OFF"
 ) else if /I "%OIIO_OUTPUT%"=="python-staged" (
     set "MODE_ARGS=-DUSE_PYTHON=ON"
-    set "PYTHON_ARGS=-DPython_EXECUTABLE=%PYTHON% -DPython3_EXECUTABLE=%PYTHON% -DPYTHON_VERSION=%PY_VER% -DPYTHON_SITE_DIR=%SP_DIR%\OpenImageIO"
+    set "PYTHON_ARGS=-DPython3_EXECUTABLE=%PYTHON% -DPYTHON_VERSION=%PY_VER% -DPYTHON_SITE_DIR=%SP_DIR%\OpenImageIO"
 ) else (
     echo Unsupported OIIO_OUTPUT value: %OIIO_OUTPUT%
     exit /b 1

@@ -110,8 +110,6 @@ case "${output_kind}" in
         fi
         if [[ -n "${python_executable}" ]]; then
             cmake_args+=(
-                -DPython_EXECUTABLE="${python_executable}"
-                -DPython_INCLUDE_DIR="${python_include_dir}"
                 -DPython3_EXECUTABLE="${python_executable}"
                 -DPython3_INCLUDE_DIR="${python_include_dir}"
             )
