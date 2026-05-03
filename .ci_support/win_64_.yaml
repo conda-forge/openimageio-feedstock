@@ -8,14 +8,50 @@ channel_targets:
 - conda-forge main
 cxx_compiler:
 - vs2022
+expat:
+- '2'
+ffmpeg:
+- '8'
+fmt:
+- '12.1'
+freetype:
+- '2'
+giflib:
+- '5.2'
+glew:
+- '2.3'
+imath:
+- 3.2.2
+lcms2:
+- '2'
+libheif:
+- '1.19'
+libjpeg_turbo:
+- '3'
+libpng:
+- '1.6'
+libraw:
+- '0.21'
+libtiff:
+- '4.7'
+libwebp:
+- '1'
 libxml2_devel:
 - '2.14'
 numpy:
 - '2'
+openexr:
+- '3.4'
+openjpeg:
+- '2'
+openjph:
+- '0.27'
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+pugixml:
+- '1.15'
 python:
 - 3.10.* *_cpython
 - 3.11.* *_cpython
@@ -24,5 +60,7 @@ python:
 - 3.14.* *_cp314
 target_platform:
 - win-64
+tbb_devel:
+- '2022'
 zlib:
 - '1'
