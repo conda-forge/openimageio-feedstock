@@ -1,8 +1,8 @@
 schema_version: 1
 
 context:
-  version: "2.5.18.0"
-  build_number: 13
+  version: "3.1.13.0"
+  build_number: 0
 
 recipe:
   name: openimageio-split
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/OpenImageIO/oiio/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: f57481435cec18633d3eba9b2e8c483fc1df6f0a01c5c9f98cbae6d1c52928e5
+  sha256: 9e3fbae448a464a3e8291f7a690c6d930b6104bc866fc523b4b523e6c37dca62
 
 build:
   number: ${{ build_number }}
