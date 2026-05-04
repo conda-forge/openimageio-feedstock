@@ -138,12 +138,7 @@ outputs:
           include:
             - OpenColorIO/**
           lib:
-            - if: win
-              then: OpenColorIO.lib
-              else: OpenColorIO
-          bin:
-            - if: win
-              then: OpenColorIO_*.dll
+            - OpenColorIO
           files:
             - if: win
               then:
@@ -324,16 +319,8 @@ outputs:
           include:
             - OpenImageIO/**
           lib:
-            - if: win
-              then:
-                - OpenImageIO.lib
-                - OpenImageIO_Util.lib
-              else:
-                - OpenImageIO
-                - OpenImageIO_Util
-          bin:
-            - if: win
-              then: OpenImageIO*.dll
+            - OpenImageIO
+            - OpenImageIO_Util
           files:
             - if: win
               then:
