@@ -138,11 +138,14 @@ outputs:
           include:
             - OpenColorIO/**
           lib:
-            - OpenColorIO
             - if: win
               then:
-                # needed because the DLL file has versionning in its name and rattler build doesn't parse it correctly
+                # Bare Windows lib names require both Library/bin/<name>.dll and
+                # Library/lib/<name>.lib (because the OCIO DLL is versioned)
                 - OpenColorIO_*.dll
+                - OpenColorIO.lib
+              else:
+                - OpenColorIO
           files:
             - if: win
               then:
@@ -325,6 +328,7 @@ outputs:
             - OpenImageIO/**
           lib:
             - OpenImageIO
+            - OpenImageIO_Util
           files:
             - if: win
               then:
