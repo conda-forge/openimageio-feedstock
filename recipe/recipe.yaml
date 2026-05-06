@@ -196,6 +196,7 @@ outputs:
       host:
         - python
         - pybind11
+        - pybind11-abi
         - ${{ pin_subpackage("libopencolorio", exact=True) }}
         # The runtime libraries pulled by libopencolorio do not include headers
         # and are needed again to reconfigure the Python bindings build.
@@ -375,6 +376,7 @@ outputs:
         - python
         - numpy
         - pybind11
+        - pybind11-abi
         # The runtime libraries pulled by libopenimageio do not include headers.
         # Those are needed again to reconfigure the Python bindings build.
         - fmt
