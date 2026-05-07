@@ -119,7 +119,7 @@ outputs:
             - lib/pkgconfig/OpenColorIO*.pc
     requirements:
       build:
-        # Keep compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
+        # Keeps compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
         # the concrete output that first creates the staging cache.
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
@@ -134,8 +134,9 @@ outputs:
           lib:
             - if: win
               then:
-                # Bare Windows lib names require both Library/bin/<name>.dll and
-                # Library/lib/<name>.lib (because the OCIO DLL is versioned)
+                # Rattler-build Windows "package_contents.lib.x" expects names such as
+                # Library/bin/<name>.dll and Library/lib/<name>.lib ; Hence not compatible 
+                # with ocio versioned DLL naming.
                 - OpenColorIO_*.dll
                 - OpenColorIO.lib
               else:
@@ -358,7 +359,7 @@ outputs:
         - if: build_platform != target_platform
           then:
             # CMake executes Python during configuration to query PyBind11 and NumPy
-            # include paths. We need the "build-architecture versions" of these packages
+            # include paths. We need the "build side architecture" versions of these packages
             # plus cross-python to prevent wrong-architecture ImportErrors.
             - cross-python_${{ target_platform }}
             - numpy
@@ -504,7 +505,7 @@ outputs:
           then: sse2neon
         - yaml-cpp
         - zlib
-        # OpenGL support for GPU-accelerated tools and ociodisplay.
+        # ---| OpenGL support for GPU-accelerated tools and ociodisplay |---
         # OCIO's CheckSupportGL.cmake requires OpenGL + GLUT on all platforms.
         # It also requires GLEW on non-Apple platforms.
         # On macOS, GLUT is expected from the system framework, not from conda.
