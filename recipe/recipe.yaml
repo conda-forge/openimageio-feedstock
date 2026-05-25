@@ -54,7 +54,7 @@ source:
     patches:
       - patches/0004-AVOID_OIIO_CORE_REBUILD_FOR_PYTHON.patch
   - url: https://github.com/AcademySoftwareFoundation/OpenColorIO/releases/download/v${{ ocio_version }}/OpenColorIO-${{ ocio_version }}.tar.gz
-    sha256: 49ab04d023d7a7a7237e24f2cfead3171b0ff7f466ce20e6e32859ec8c7cc94b
+    sha256: cb8b0ae38fa523be8f899a0b2d6b8ca8cbcda7bc4322c91d1ac2b6b2a0082474
     target_directory: ocio_src
     patches:
       - patches/0001-FIX_WIN_NINJA_PYTHON_ENV.patch
