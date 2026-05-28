@@ -31,7 +31,7 @@ libjpeg_turbo:
 libpng:
 - '1.6'
 libraw:
-- '0.21'
+- '0.22'
 libtiff:
 - '4.7'
 libwebp:
