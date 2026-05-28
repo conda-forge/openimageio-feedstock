@@ -41,7 +41,7 @@ schema_version: 1
 context:
   version: "3.1.13.1" # https://github.com/AcademySoftwareFoundation/OpenImageIO/releases
   ocio_version: "2.5.2" # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
-  build_number: 1
+  build_number: 2
 
 recipe:
   name: openimageio-split
