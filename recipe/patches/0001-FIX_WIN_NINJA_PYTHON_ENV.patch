@@ -1,0 +1,42 @@
+From 8e0463e0ba521069f397b85de0bd5488f53746fb Mon Sep 17 00:00:00 2001
+From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 12:54:04 +0200
+Subject: [PATCH] FIX WINDOWS PYTHON PRECOMMANDS FOR NINJA BUILDS
+
+Avoid multiline cmd.exe precommands in generated Ninja rules.
+
+Resolve PATH and PYTHONPATH to configure-time environment values, escape semicolons in both variables, and terminate cmake -E env options with -- so Windows Ninja builds can parse the generated command line correctly.
+
+Reference: N/A (no upstream PR yet)
+---
+ share/cmake/macros/GetPythonPreCommand.cmake | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/share/cmake/macros/GetPythonPreCommand.cmake b/share/cmake/macros/GetPythonPreCommand.cmake
+index 22b39f33..4838dc19 100644
+--- a/share/cmake/macros/GetPythonPreCommand.cmake
++++ b/share/cmake/macros/GetPythonPreCommand.cmake
+@@ -56,17 +56,16 @@ macro(get_python_pre_command)
+         # expansion. That results in an empty path in the ENV variable and
+         # Python 3.11+ fails to convert that to absolute path. Possibly due to
+         # https://www.cve.news/cve-2023-41105/
+-        list(APPEND _WIN_PATHS "%%PYTHONPATH%%")
++        list(APPEND _WIN_PATHS $ENV{PYTHONPATH})
+ 
+         string(JOIN "\\\\;" _PYTHONPATH_VALUE ${_WIN_PATHS})
+         string(CONCAT _PYTHONPATH_SET "PYTHONPATH=${_PYTHONPATH_VALUE}")
+ 
+-        # Mimic *nix:
+-        #   '> PYTHONPATH=XXX CMD'
+-        # on Windows with:
+-        #   '> set PYTHONPATH=XXX \n call CMD'
+-        # '\n' is here because '\\&' does not work.
+-        set(Python_PRE_CMD set ${_PATH_SET} "\n" set ${_PYTHONPATH_SET} "\n" call)
++        string(REPLACE "%PATH%" "$ENV{PATH}" _PATH_SET "${_PATH_SET}")
++        string(REPLACE ";" "\\;" _PATH_SET "${_PATH_SET}")
++        string(REPLACE ";" "\\;" _PYTHONPATH_SET "${_PYTHONPATH_SET}")
++        # Avoid multiline cmd.exe 'set' precommands, which break Ninja parsing.
++        set(Python_PRE_CMD ${CMAKE_COMMAND} -E env ${_PATH_SET} ${_PYTHONPATH_SET} --)
+ 
+     else()
+         # Build path list

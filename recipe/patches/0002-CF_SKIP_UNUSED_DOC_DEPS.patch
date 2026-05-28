@@ -1,0 +1,41 @@
+From 3908b6be4cb7b2ead0b480d4a4e8cb169a8b1f9b Mon Sep 17 00:00:00 2001
+From: Nils DEYBACH <68770774+ndeybach@users.noreply.github.com>
+Date: Sat, 25 Apr 2026 12:54:10 +0200
+Subject: [PATCH] CF PACKAGING SKIP FULL HTML DOC EXTRAS FOR PYOPENCOLORIO
+
+Drop the docs-time checks for testresources, sphinx-press-theme, and sphinx-tabs in packaging builds.
+
+These packages are used by the full HTML docs configuration, but they are not needed for the PyOpenColorIO docstring extraction path used by conda-forge packaging.
+
+Reference: N/A (packaging-only patch)
+---
+ docs/CMakeLists.txt | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/docs/CMakeLists.txt b/docs/CMakeLists.txt
+index 31dd8c5d..729306a9 100644
+--- a/docs/CMakeLists.txt
++++ b/docs/CMakeLists.txt
+@@ -26,22 +26,10 @@ if(${Python_VERSION_MAJOR} GREATER_EQUAL 3)
+     # https://pypi.org/project/six/
+     find_python_package(six REQUIRED)
+ 
+-    # testresources
+-    # https://pypi.org/project/testresources/
+-    find_python_package(testresources REQUIRED)
+-
+     # Recommonmark
+     # https://pypi.org/project/recommonmark/
+     find_python_package(recommonmark REQUIRED)
+ 
+-    # Sphinx Press Theme
+-    # https://pypi.org/project/sphinx-press-theme/
+-    find_python_package(sphinx-press-theme REQUIRED)
+-
+-    # sphinx-tabs
+-    # https://pypi.org/project/sphinx-tabs/
+-    find_python_package(sphinx-tabs REQUIRED)
+-
+     # Breathe
+     # https://pypi.org/project/breathe/
+     find_python_package(breathe REQUIRED)

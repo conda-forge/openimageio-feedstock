@@ -1,0 +1,47 @@
+From b4eccfa76fc6fe1bf47cce6da3f31dd3eaec3e55 Mon Sep 17 00:00:00 2001
+From: conda-forge <conda-forge@users.noreply.github.com>
+Date: Mon, 27 Apr 2026 11:31:50 +0200
+Subject: [PATCH] Avoid rebuilding core library for Python-only variants
+
+To prevent unnecessary rebuilds of the core library for each Python variant, this patch:
+1. Removes the unused `OIIO_PYTHON_VERSION` compile definition from the core target.
+2. Excludes Python3 and pybind11 from the `buildopts.h` dependency report.
+
+This ensures Python-only package variants can strictly reuse the staged core objects and compile only the CPython bindings.
+---
+ src/cmake/externalpackages.cmake  | 7 +++++++
+ src/libOpenImageIO/CMakeLists.txt | 1 -
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/src/cmake/externalpackages.cmake b/src/cmake/externalpackages.cmake
+index f10cfc8..30322a8 100644
+--- a/src/cmake/externalpackages.cmake
++++ b/src/cmake/externalpackages.cmake
+@@ -241,6 +241,13 @@ checked_find_package (fmt REQUIRED
+ get_target_property(FMT_INCLUDE_DIR fmt::fmt-header-only INTERFACE_INCLUDE_DIRECTORIES)
+ 
+ 
++###########################################################################
++
++# Python and pybind11 are only needed to build PyOpenImageIO. Do not embed
++# them in libOpenImageIO's build dependency metadata, otherwise Python-only
++# variants dirty buildopts.h and relink the staged core library.
++list (FILTER CFP_ALL_BUILD_DEPS_FOUND EXCLUDE REGEX "^(Python3|pybind11) ")
++
+ ###########################################################################
+ 
+ list (SORT CFP_ALL_BUILD_DEPS_FOUND COMPARE STRING CASE INSENSITIVE)
+diff --git a/src/libOpenImageIO/CMakeLists.txt b/src/libOpenImageIO/CMakeLists.txt
+index e6a117f..78bd25b 100644
+--- a/src/libOpenImageIO/CMakeLists.txt
++++ b/src/libOpenImageIO/CMakeLists.txt
+@@ -122,7 +122,6 @@ endif ()
+ target_compile_definitions(OpenImageIO
+               PRIVATE
+                   OIIO_FREETYPE_VERSION="${FREETYPE_VERSION_STRING}"
+-                  OIIO_PYTHON_VERSION="${Python3_VERSION}"
+                   OIIO_QT_VERSION="${Qt6_VERSION}${Qt5_VERSION}"
+                   OIIO_TBB_VERSION="${TBB_VERSION}"
+              )
+-- 
+2.53.0

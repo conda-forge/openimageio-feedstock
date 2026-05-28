@@ -2,6 +2,8 @@ MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
 - '11.0'
+bzip2:
+- '1'
 c_compiler:
 - clang
 c_compiler_version:
@@ -14,8 +16,10 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
+expat:
+- '2'
 ffmpeg:
-- '7'
+- '8'
 fmt:
 - '12.1'
 freetype:
@@ -24,8 +28,8 @@ giflib:
 - '5.2'
 imath:
 - 3.2.2
-libboost_devel:
-- '1.90'
+lcms2:
+- '2'
 libheif:
 - '1.19'
 libjpeg_turbo:
@@ -38,6 +42,8 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
+libxml2_devel:
+- '2.14'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 numpy:
@@ -46,10 +52,16 @@ openexr:
 - '3.4'
 openjpeg:
 - '2'
+openjph:
+- '0.27'
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+pugixml:
+- '1.15'
+pybind11_abi:
+- '4'
 python:
 - 3.10.* *_cpython
 - 3.11.* *_cpython
