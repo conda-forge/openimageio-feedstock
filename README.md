@@ -302,5 +302,6 @@ Feedstock Maintainers
 * [@SylvainCorlay](https://github.com/SylvainCorlay/)
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@lgritz](https://github.com/lgritz/)
+* [@ndeybach](https://github.com/ndeybach/)
 * [@wolfv](https://github.com/wolfv/)
 
