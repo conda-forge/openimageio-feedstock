@@ -63,6 +63,6 @@ python:
 target_platform:
 - win-64
 tbb_devel:
-- '2022'
+- '2023'
 zlib:
 - '1'
