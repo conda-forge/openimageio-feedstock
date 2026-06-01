@@ -39,8 +39,10 @@ schema_version: 1
 # with existing users of the feedstock.
 
 context:
+  # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   version: "3.1.14.0"
-  ocio_version: "2.5.2" # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
+  # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
+  ocio_version: "2.5.2" 
   build_number: 0
 
 recipe:
