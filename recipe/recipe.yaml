@@ -2,7 +2,7 @@ schema_version: 1
 
 # Notes:
 # This is a recipe using staging paradigm to build:
-# - libopencolorio: OCIO core library and headers 
+# - libopencolorio: OCIO core library and headers
 # - py-opencolorio: OCIO Python bindings
 # - libopenimageio: OIIO core library and headers
 # - py-openimageio: OIIO Python bindings
@@ -29,12 +29,12 @@ schema_version: 1
 #      the staged libopenimageio so CLI tools like `ocioconvert` feature full image support.
 
 # Other Outputs (py-opencolorio, py-openimageio, openimageio-tools, libopencolorio, libopenimageio):
-#   These outputs inherit from their staging builds. Since the heavy C++ core is already 
-#   compiled, they only execute the quicker/lighter compilation for their specific 
+#   These outputs inherit from their staging builds. Since the heavy C++ core is already
+#   compiled, they only execute the quicker/lighter compilation for their specific
 #   targets (e.g., Python bindings or CLI tools). This keeps target-specific runtime dependencies
 #   (like Python) isolated from the core libraries and avoids most of the heavy recompilations.
 
-# Finally, there are also 2 metapackages (openimageio and opencolorio) that bundle the core 
+# Finally, there are also 2 metapackages (openimageio and opencolorio) that bundle the core
 # libraries with their respective tools for easier installation and backward compatibility
 # with existing users of the feedstock.
 
@@ -42,7 +42,7 @@ context:
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   version: "3.1.14.0"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
-  ocio_version: "2.5.2" 
+  ocio_version: "2.5.2"
   build_number: 0
 
 recipe:
@@ -80,6 +80,7 @@ outputs:
       build:
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
+        - ${{ stdlib('c') }}
         - cmake
         - if: not win
           then: make
@@ -137,7 +138,7 @@ outputs:
             - if: win
               then:
                 # Rattler-build Windows "package_contents.lib.x" expects names such as
-                # Library/bin/<name>.dll and Library/lib/<name>.lib ; Hence not compatible 
+                # Library/bin/<name>.dll and Library/lib/<name>.lib ; Hence not compatible
                 # with ocio versioned DLL naming.
                 - OpenColorIO_*.dll
                 - OpenColorIO.lib
@@ -215,7 +216,7 @@ outputs:
         - sphinx
       ignore_run_exports:
         from_package:
-          # suppress run export of build-only dependencies that are needed to 
+          # suppress run export of build-only dependencies that are needed to
           # reconfigure/build the Python bindings but not for runtime usage of the Python package;
           - expat
           - imath
@@ -478,7 +479,7 @@ outputs:
       script:
         # Here we rebuild OCIO whole as the base OCIO staging build intentionally
         # disables apps/OIIO integration so libopenimageio can first build
-        # against libopencolorio. 
+        # against libopencolorio.
         # Here the tools are built after libopenimageio exists because ocioconvert,
         # ociolutimage, and ociodisplay link to OIIO-backed image I/O for full format support.
         env:
