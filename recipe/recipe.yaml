@@ -43,7 +43,7 @@ context:
   version: "3.1.14.0"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.5.2"
-  build_number: 1
+  build_number: 2
 
 recipe:
   name: openimageio-split
@@ -78,9 +78,9 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
-        - ${{ stdlib('c') }}
         - cmake
         - if: not win
           then: make
@@ -124,6 +124,7 @@ outputs:
       build:
         # Keeps compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
         # the concrete output that first creates the staging cache.
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
       run_exports:
@@ -183,6 +184,7 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
@@ -254,6 +256,7 @@ outputs:
         file: build-openimageio
     requirements:
       build:
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
@@ -314,6 +317,7 @@ outputs:
       build:
         # Keep compiler-derived variants such as CONDA_BUILD_SYSROOT attached to
         # the concrete output that first creates the staging cache.
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
       run_exports:
@@ -368,6 +372,7 @@ outputs:
             - numpy
             - pybind11
             - python
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
@@ -489,6 +494,7 @@ outputs:
         file: build-opencolorio
     requirements:
       build:
+        - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
         - ${{ compiler("cxx") }}
         - cmake
