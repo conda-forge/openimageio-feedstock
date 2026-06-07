@@ -35,7 +35,7 @@ imath:
 lcms2:
 - '2'
 libheif:
-- '1.19'
+- '1.23'
 libjpeg_turbo:
 - '3'
 libpng:
