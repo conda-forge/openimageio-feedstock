@@ -39,11 +39,13 @@ schema_version: 1
 # with existing users of the feedstock.
 
 context:
-  # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
+  # https://github.com/AcademySoftwareFoundation/OpenImageIO/releases
+  # !!! Double check ocio latest version when oiio is updated as auto bot only discover the "main" oiio changes !!!
   version: "3.1.14.1"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.5.2"
   build_number: 0
+  ocio_build_number: 5
 
 recipe:
   name: openimageio-split
@@ -107,6 +109,7 @@ outputs:
       version: ${{ ocio_version }}
     inherit: opencolorio-build
     build:
+      number: ${{ ocio_build_number }}
       files:
         - if: win
           then:
@@ -169,7 +172,8 @@ outputs:
       from: opencolorio-build
       run_exports: false
     build:
-      string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ build_number }}
+      number: ${{ ocio_build_number }}
+      string: py${{ python | version_to_buildstring }}_h${{ hash }}_${{ ocio_build_number }}
       files:
         - if: win
           then:
@@ -474,6 +478,7 @@ outputs:
       from: opencolorio-build
       run_exports: false
     build:
+      number: ${{ ocio_build_number }}
       files:
         include:
           - if: win
@@ -598,6 +603,8 @@ outputs:
   - package:
       name: opencolorio
       version: ${{ ocio_version }}
+    build:
+      number: ${{ ocio_build_number }}
     requirements:
       run:
         - ${{ pin_subpackage("libopencolorio", exact=True) }}
