@@ -40,10 +40,10 @@ schema_version: 1
 
 context:
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
-  version: "3.1.14.0"
+  version: "3.1.14.1"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.5.2"
-  build_number: 4
+  build_number: 0
 
 recipe:
   name: openimageio-split
@@ -51,7 +51,7 @@ recipe:
 
 source:
   - url: https://github.com/AcademySoftwareFoundation/OpenImageIO/releases/download/v${{ version }}/OpenImageIO-${{ version }}.tar.gz
-    sha256: ced98eff58fe27fc2fad5b789ee9cb43dda5f415700bb2f36229ad7fd32a6ea9
+    sha256: 747341fd98f10d82868ec7663f1f3763cf6fb9acf8a2ed81fc3f25256ef019be
     target_directory: oiio_src
     patches:
       - patches/0004-AVOID_OIIO_CORE_REBUILD_FOR_PYTHON.patch
