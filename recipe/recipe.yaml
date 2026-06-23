@@ -44,7 +44,7 @@ context:
   version: "3.1.14.1"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.5.2"
-  build_number: 1
+  build_number: 2
   ocio_build_number: 5
 
 recipe:
