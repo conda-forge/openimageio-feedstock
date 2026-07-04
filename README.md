@@ -305,6 +305,3 @@ Feedstock Maintainers
 * [@ndeybach](https://github.com/ndeybach/)
 * [@wolfv](https://github.com/wolfv/)
 
-
-<!-- dummy commit to enable rerendering -->
-

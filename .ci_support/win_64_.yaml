@@ -30,6 +30,8 @@ libheif:
 - '1.23'
 libjpeg_turbo:
 - '3'
+libjxl:
+- '0.12'
 libpng:
 - '1.6'
 libraw:
