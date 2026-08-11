@@ -21,7 +21,7 @@ docker_image:
 expat:
 - '2'
 ffmpeg:
-- '8'
+- '9'
 fmt:
 - '12.1'
 freetype:
