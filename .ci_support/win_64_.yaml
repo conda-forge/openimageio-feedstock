@@ -41,7 +41,7 @@ libtiff:
 libwebp:
 - '1'
 libxml2_devel:
-- '2.14'
+- '2.15'
 numpy:
 - '2'
 openexr:
@@ -59,7 +59,6 @@ pugixml:
 pybind11_abi:
 - '11'
 python:
-- 3.10.* *_cpython
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
