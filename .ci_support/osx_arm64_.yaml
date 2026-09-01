@@ -7,7 +7,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '19'
+- '21'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -19,7 +19,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 expat:
 - '2'
 ffmpeg:
@@ -49,7 +49,7 @@ libtiff:
 libwebp:
 - '1'
 libxml2_devel:
-- '2.14'
+- '2.15'
 macos_machine:
 - arm64-apple-darwin20.0.0
 numpy:
@@ -69,7 +69,6 @@ pugixml:
 pybind11_abi:
 - '11'
 python:
-- 3.10.* *_cpython
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
