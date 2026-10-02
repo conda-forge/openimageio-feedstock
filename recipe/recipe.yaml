@@ -539,6 +539,7 @@ outputs:
             - mesalib
         - if: win
           then:
+            - directx-headers
             - freeglut
             - glew
       ignore_run_exports:
