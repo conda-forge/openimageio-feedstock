@@ -1,23 +1,28 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '11.0'
 bzip2:
 - '1'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '15'
+- '21'
 c_stdlib:
-- sysroot
+- macosx_deployment_target
 c_stdlib_version:
-- '2.17'
+- '11.0'
 channel_sources:
+- conda-forge
+- conda-forge
+- conda-forge
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '15'
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma10
+- '21'
 expat:
 - '2'
 ffmpeg:
@@ -28,8 +33,6 @@ freetype:
 - '2'
 giflib:
 - '5.2'
-glew:
-- '2.3'
 imath:
 - 3.2.2
 lcms2:
@@ -50,6 +53,8 @@ libwebp:
 - '1'
 libxml2_devel:
 - '2.15'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openexr:
@@ -72,11 +77,13 @@ python:
 - 3.13.* *_cp313
 - 3.14.* *_cp314
 target_platform:
-- linux-64
+- osx-64
 tbb_devel:
 - '2023'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - python
+  - channel_sources
 zlib:
 - '1'
