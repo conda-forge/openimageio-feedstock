@@ -113,6 +113,10 @@ case "${output_kind}" in
                 -DPython3_EXECUTABLE="${python_executable}"
                 -DPython3_INCLUDE_DIR="${python_include_dir}"
             )
+            if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
+                # FindPython must use cross-python's target paths and module suffix.
+                cmake_args+=(-DPython_EXECUTABLE="${python_executable}")
+            fi
         fi
         ;;
     *)
