@@ -41,9 +41,9 @@ schema_version: 1
 context:
   # https://github.com/AcademySoftwareFoundation/OpenImageIO/releases
   # !!! Double check ocio latest version when oiio is updated as auto bot only discover the "main" oiio changes !!!
-  version: "3.1.17.0"
+  version: "3.2.1.0"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
-  ocio_version: "2.5.2"
+  ocio_version: "2.6.0"
   build_number: 0
   ocio_build_number: 5
 
@@ -53,12 +53,12 @@ recipe:
 
 source:
   - url: https://github.com/AcademySoftwareFoundation/OpenImageIO/releases/download/v${{ version }}/OpenImageIO-${{ version }}.tar.gz
-    sha256: 9cc504323ea4653f8faaddbaa6be3058c8523194a9a71e21b9d8ce94c8971575
+    sha256: 9a6e5164d2e57b55a8ad634dc4ba98d2bf0698136dcaf9f7a6fd26dbf82dd2c0
     target_directory: oiio_src
     patches:
       - patches/0004-AVOID_OIIO_CORE_REBUILD_FOR_PYTHON.patch
   - url: https://github.com/AcademySoftwareFoundation/OpenColorIO/releases/download/v${{ ocio_version }}/OpenColorIO-${{ ocio_version }}.tar.gz
-    sha256: cb8b0ae38fa523be8f899a0b2d6b8ca8cbcda7bc4322c91d1ac2b6b2a0082474
+    sha256: 9271f4cb7751b465daf0e178323aef3f3fdf7595908ee4bb6442cceb73a24296
     target_directory: ocio_src
     patches:
       - patches/0001-FIX_WIN_NINJA_PYTHON_ENV.patch
@@ -369,12 +369,12 @@ outputs:
       build:
         - if: build_platform != target_platform
           then:
-            # CMake executes Python during configuration to query PyBind11 and NumPy
+            # CMake executes Python during configuration to query nanobind and NumPy
             # include paths. We need the "build side architecture" versions of these packages
             # plus cross-python to prevent wrong-architecture ImportErrors.
             - cross-python_${{ target_platform }}
             - numpy
-            - pybind11
+            - nanobind
             - python
         - ${{ stdlib("c") }}
         - ${{ compiler("c") }}
@@ -386,8 +386,8 @@ outputs:
         - ${{ pin_subpackage("libopenimageio", exact=True) }}
         - python
         - numpy
-        - pybind11
-        - pybind11-abi
+        - nanobind
+        - nanobind-abi
         # The runtime libraries pulled by libopenimageio do not include headers.
         # Those are needed again to reconfigure the Python bindings build.
         - fmt
@@ -539,6 +539,7 @@ outputs:
             - mesalib
         - if: win
           then:
+            - directx-headers
             - freeglut
             - glew
       ignore_run_exports:

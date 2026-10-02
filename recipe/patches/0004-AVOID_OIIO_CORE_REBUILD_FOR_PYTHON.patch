@@ -5,7 +5,7 @@ Subject: [PATCH] Avoid rebuilding core library for Python-only variants
 
 To prevent unnecessary rebuilds of the core library for each Python variant, this patch:
 1. Removes the unused `OIIO_PYTHON_VERSION` compile definition from the core target.
-2. Excludes Python3 and pybind11 from the `buildopts.h` dependency report.
+2. Excludes Python3 and nanobind from the `buildopts.h` dependency report.
 
 This ensures Python-only package variants can strictly reuse the staged core objects and compile only the CPython bindings.
 ---
@@ -23,10 +23,10 @@ index f10cfc8..30322a8 100644
  
 +###########################################################################
 +
-+# Python and pybind11 are only needed to build PyOpenImageIO. Do not embed
++# Python3 and nanobind are only needed to build PyOpenImageIO. Do not embed
 +# them in libOpenImageIO's build dependency metadata, otherwise Python-only
 +# variants dirty buildopts.h and relink the staged core library.
-+list (FILTER CFP_ALL_BUILD_DEPS_FOUND EXCLUDE REGEX "^(Python3|pybind11) ")
++list (FILTER CFP_ALL_BUILD_DEPS_FOUND EXCLUDE REGEX "^(Python3|nanobind) ")
 +
  ###########################################################################
  
