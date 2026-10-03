@@ -44,7 +44,7 @@ context:
   version: "3.2.1.0"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.6.0"
-  build_number: 0
+  build_number: 1
   ocio_build_number: 5
 
 recipe:
@@ -178,6 +178,7 @@ outputs:
         - if: win
           then:
             - Lib/site-packages/PyOpenColorIO/**
+            - lib/python/site-packages/PyOpenColorIO/** # for python 3.15+ (see https://conda-forge.org/blog/2026/09/03/python-315/)
           else:
             - lib/python*/site-packages/PyOpenColorIO/**
       script:
@@ -359,6 +360,7 @@ outputs:
         - if: win
           then:
             - Lib/site-packages/OpenImageIO/**
+            - lib/python/site-packages/OpenImageIO/** # for python 3.15+ (see https://conda-forge.org/blog/2026/09/03/python-315/)
           else:
             - lib/python*/site-packages/OpenImageIO/**
       script:
