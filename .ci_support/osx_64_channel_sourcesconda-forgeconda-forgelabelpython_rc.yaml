@@ -55,7 +55,7 @@ macos_machine:
 numpy:
 - '2'
 openexr:
-- '3.4'
+- '3.5'
 openjpeg:
 - '2'
 openjph:
