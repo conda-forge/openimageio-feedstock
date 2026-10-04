@@ -31,7 +31,7 @@ freetype:
 giflib:
 - '5.2'
 imath:
-- 3.2.2
+- 3.2.3
 lcms2:
 - '2'
 libheif:
@@ -55,11 +55,11 @@ macos_machine:
 numpy:
 - '2'
 openexr:
-- '3.4'
+- '3.5'
 openjpeg:
 - '2'
 openjph:
-- '0.31'
+- '0.32'
 pin_run_as_build:
   python:
     min_pin: x.x
