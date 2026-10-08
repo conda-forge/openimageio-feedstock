@@ -512,6 +512,7 @@ outputs:
         - ${{ pin_subpackage("libopencolorio", exact=True) }}
         - ${{ pin_subpackage("libopenimageio", exact=True) }}
         - expat
+        - fmt
         - imath
         - lcms2
         - minizip
@@ -550,6 +551,7 @@ outputs:
           # not directly linked by the packaged executables as we defer to the
           # pinned subpackages for the runtime deps.
           - expat
+          - fmt
           - imath
           - mesalib
           - openexr
