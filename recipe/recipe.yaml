@@ -44,7 +44,7 @@ context:
   version: "3.2.1.1"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.6.0"
-  build_number: 2
+  build_number: 3
   ocio_build_number: 6
 
 recipe:
@@ -282,6 +282,7 @@ outputs:
         - libpng
         - libraw
         - libtiff
+        - libultrahdr
         - libwebp
         # Provides the unversioned libxml2.so linker symlink.
         - libxml2-devel
