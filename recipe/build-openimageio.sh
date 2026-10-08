@@ -18,9 +18,9 @@ build_dir="${SRC_DIR}/build-stage"
 
 # The following advanced integrations are currently enabled:
 #   - DICOM support via DCMTK.
+#   - Ultra HDR via libuhdr (conda package libultrahdr).
 #
 # The following integrations remain intentionally off until their packaging are ready / possible / wanted :
-#   - Ultra HDR via libuhdr.
 #   - OpenCV bridge.
 #   - OpenVDB support.
 #   - Ptex support.
@@ -58,7 +58,7 @@ cmake_args=(
     -DENABLE_openjph=ON
     -DUSE_JXL=ON
     -DENABLE_TBB=ON
-    -DENABLE_libuhdr=OFF
+    -DENABLE_libuhdr=ON
     -DUSE_FFMPEG=ON
     -DENABLE_OpenCV=OFF
     -DENABLE_OpenVDB=OFF
