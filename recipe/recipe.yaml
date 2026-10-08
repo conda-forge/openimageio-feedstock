@@ -45,7 +45,7 @@ context:
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.6.0"
   build_number: 2
-  ocio_build_number: 6
+  ocio_build_number: 7
 
 recipe:
   name: openimageio-split
@@ -512,6 +512,7 @@ outputs:
         - ${{ pin_subpackage("libopencolorio", exact=True) }}
         - ${{ pin_subpackage("libopenimageio", exact=True) }}
         - expat
+        - fmt
         - imath
         - lcms2
         - minizip
@@ -550,6 +551,7 @@ outputs:
           # not directly linked by the packaged executables as we defer to the
           # pinned subpackages for the runtime deps.
           - expat
+          - fmt
           - imath
           - mesalib
           - openexr
