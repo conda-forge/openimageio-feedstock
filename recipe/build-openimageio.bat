@@ -61,7 +61,7 @@ cmake -S "%SOURCE_ROOT%" -B "%BUILD_DIR%" -G Ninja ^
     -DENABLE_openjph=ON ^
     -DUSE_JXL=ON ^
     -DENABLE_TBB=ON ^
-    -DENABLE_libuhdr=OFF ^
+    -DENABLE_libuhdr=ON ^
     -DUSE_FFMPEG=ON ^
     -DENABLE_OpenCV=OFF ^
     -DENABLE_OpenVDB=OFF ^
