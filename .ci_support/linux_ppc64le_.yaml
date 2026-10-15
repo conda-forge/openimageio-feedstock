@@ -9,7 +9,7 @@ c_stdlib:
 c_stdlib_version:
 - '2.17'
 channel_sources:
-- conda-forge,conda-forge/label/python_rc
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -46,6 +46,8 @@ libraw:
 - '0.22'
 libtiff:
 - '4.7'
+libultrahdr:
+- 2.0.2
 libwebp:
 - '1'
 libxml2_devel:
@@ -67,6 +69,10 @@ pugixml:
 pybind11_abi:
 - '11'
 python:
+- 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.13.* *_cp313
+- 3.14.* *_cp314
 - 3.15.* *_cp315
 target_platform:
 - linux-ppc64le
@@ -75,7 +81,5 @@ tbb_devel:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - python
-  - channel_sources
 zlib:
 - '1'
