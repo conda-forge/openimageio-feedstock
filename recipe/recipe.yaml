@@ -41,10 +41,10 @@ schema_version: 1
 context:
   # https://github.com/AcademySoftwareFoundation/OpenImageIO/releases
   # !!! Double check ocio latest version when oiio is updated as auto bot only discover the "main" oiio changes !!!
-  version: "3.2.1.1"
+  version: "3.2.1.2"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.6.0"
-  build_number: 4
+  build_number: 0
   ocio_build_number: 7
 
 recipe:
@@ -53,7 +53,7 @@ recipe:
 
 source:
   - url: https://github.com/AcademySoftwareFoundation/OpenImageIO/releases/download/v${{ version }}/OpenImageIO-${{ version }}.tar.gz
-    sha256: 518dd997d457fa198cd4aa51a0ccf2b79a45176cf2522fe3d7392580dcb7ae11
+    sha256: d447c2f1e889e92c5b7952e7b24807e756105869e60bee2d67fc7cb0a17fb0fe
     target_directory: oiio_src
     patches:
       - patches/0004-AVOID_OIIO_CORE_REBUILD_FOR_PYTHON.patch
