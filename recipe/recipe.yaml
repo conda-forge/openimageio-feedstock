@@ -44,7 +44,7 @@ context:
   version: "3.2.1.1"
   # https://github.com/AcademySoftwareFoundation/OpenColorIO/releases
   ocio_version: "2.6.0"
-  build_number: 3
+  build_number: 4
   ocio_build_number: 6
 
 recipe:
@@ -598,6 +598,11 @@ outputs:
       run:
         - ${{ pin_subpackage("libopenimageio", exact=True) }}
         - ${{ pin_subpackage("openimageio-tools", exact=True) }}
+      # Many consumers put the `openimageio` metapackage in host; forward the
+      # library's ABI pin so they still get a libopenimageio run dependency.
+      run_exports:
+        weak:
+          - ${{ pin_subpackage("libopenimageio", upper_bound="x.x") }}
     tests:
       - script:
           - oiiotool --help
