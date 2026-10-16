@@ -29,7 +29,7 @@ fmt:
 freetype:
 - '2'
 giflib:
-- '5.2'
+- '6'
 imath:
 - 3.2.3
 lcms2:
