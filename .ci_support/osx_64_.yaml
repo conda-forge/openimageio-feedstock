@@ -59,7 +59,7 @@ openexr:
 openjpeg:
 - '2'
 openjph:
-- '0.32'
+- '0.33'
 pin_run_as_build:
   python:
     min_pin: x.x
