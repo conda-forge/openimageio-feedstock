@@ -21,8 +21,13 @@ if /I "%target_platform%"=="win-64" (
     set "OCIO_SIMD_ARGS=-DOCIO_USE_SSE2=ON -DOCIO_USE_SSE3=ON -DOCIO_USE_SSSE3=ON -DOCIO_USE_SSE4=ON -DOCIO_USE_SSE42=ON -DOCIO_USE_AVX=ON -DOCIO_USE_AVX2=ON -DOCIO_USE_AVX512=ON -DOCIO_USE_F16C=ON"
 )
 
+rem pybind11 found through its CMake config does not add /bigobj to pybind11::module,
+rem and pybind11 >=3.1 exceeds the default MSVC section limit in PyTypes.cpp.
+rem CMAKE_CXX_FLAGS_INIT is only read on the first (staging) configure, so the
+rem inherited outputs reuse the cached flags and do not rebuild the core library.
 cmake -S "%SRC_DIR%\ocio_src" -B "%BUILD_DIR%" -G Ninja ^
     %CMAKE_ARGS% ^
+    -DCMAKE_CXX_FLAGS_INIT=/bigobj ^
     -DCMAKE_INSTALL_PREFIX:PATH="%LIBRARY_PREFIX%" ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DBUILD_SHARED_LIBS=ON ^

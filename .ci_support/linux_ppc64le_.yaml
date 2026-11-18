@@ -69,7 +69,7 @@ pin_run_as_build:
 pugixml:
 - '1.15'
 pybind11_abi:
-- '11'
+- '12'
 python:
 - 3.11.* *_cpython
 - 3.12.* *_cpython
